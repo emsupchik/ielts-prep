@@ -1,0 +1,430 @@
+<div class="prompt-box">${task.prompt}</div>
+      <p class="prompt-info">${task.instruction}</p>
+    </div>
+    <div class="essay-area">
+      <textarea id="essay-text" placeholder="Start writing here..."></textarea>
+      <div class="word-count-display" id="wc-display">0 words</div>
+      <div class="writing-action">
+        <button class="btn-check" onclick="checkWriting('${task.id}')">Check</button>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg);padding:22px 26px;">
+      <div class="writing-feedback" id="writing-feedback">
+        <div class="check-row" id="wc-check"></div>
+        <div class="check-row" id="para-check"></div>
+        <div class="check-row" id="reg-check"></div>
+      </div>
+      ${criteriaHtml}
+      <details style="margin-top:16px;border-top:1px solid rgba(255,255,255,0.06);padding-top:14px;">
+        <summary style="font-family:var(--font-heading);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text);cursor:pointer;list-style:none;padding:6px 0;">Sample candidate scripts (for reference)</summary>
+        ${samplesHtml}
+      </details>
+    </div>
+  `;
+  const essay = document.getElementById('essay-text');
+  const wc = document.getElementById('wc-display');
+  essay.addEventListener('input', ()=>{
+    const words = countWords(essay.value);
+    wc.textContent = `${words} words`;
+    wc.classList.toggle('ok', words>=task.minWords);
+    wc.classList.toggle('low', words>0 && words<task.minWords);
+  });
+}
+function countWords(text){
+  const t = text.trim();
+  if(!t) return 0;
+  return t.split(/\\s+/).length;
+}
+function checkWriting(taskId){
+  const task = WRITING_TASKS.find(t=>t.id===taskId);
+  const essay = document.getElementById('essay-text').value;
+  const words = countWords(essay);
+  const paragraphs = essay.split(/\\n\\s*\\n/).filter(p=>p.trim().length>0).length;
+  const wcOk = words >= task.minWords;
+  const paraOk = paragraphs >= 3;
+  const hasOpening = task.id==='task1' ? /dear sir or madam/i.test(essay) : true;
+  document.getElementById('wc-check').innerHTML = `<span class="dot ${wcOk?'ok':'warn'}"></span> ${words} words written — ${wcOk ? `meets the ${task.minWords}-word minimum.` : `below the ${task.minWords}-word minimum required.`}`;
+  document.getElementById('para-check').innerHTML = `<span class="dot ${paraOk?'ok':'warn'}"></span> ${paragraphs} paragraph${paragraphs===1?'':'s'} — ${paraOk ? 'clear paragraph structure.' : 'consider organising into distinct paragraphs.'}`;
+  if(task.id==='task1'){
+    document.getElementById('reg-check').innerHTML = `<span class="dot ${hasOpening?'ok':'warn'}"></span> ${hasOpening ? 'Includes the required opening ("Dear Sir or Madam,").' : 'Add the required letter opening ("Dear Sir or Madam,").'}`;
+  } else {
+    document.getElementById('reg-check').innerHTML = `<span class="dot ok"></span> No specific opening format required for Task 2 essay.`;
+  }
+  document.getElementById('writing-feedback').classList.add('show');
+}
+/* ==================================================
+   LISTENING DATA & LOGIC
+   ================================================== */
+const LISTENING_TASKS = [
+  {
+    id:'form-completion',
+    label:'Task 1 — Form Completion',
+    title:'IELTS Listening — Form Completion',
+    subject:'Packham\'s Shipping Agency — Customer Quotation Form',
+    instructions:'Complete the form below. Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.',
+    recordingName:'IELTS Listening Recording 1 — Jacob Mkere shipping a container to Kenya',
+    audioSrc:'/c/Users/mnaza/OneDrive/Рабочий стол/claude code/слушание/слушание 1/113200_Sample_Task_Type_1_Recording.mp3',
+    audioUrl:'file:///C:/Users/mnaza/OneDrive/Рабочий%20стол/claude%20code/%D1%81%D0%BB%D1%83%D1%88%D0%B0%D0%BD%D0%B8%D0%B5/%D1%81%D0%BB%D1%83%D1%88%D0%B0%D0%BD%D0%B8%D0%B5%201/113200_Sample_Task_Type_1_Recording.mp3',
+    showTapescript:true,
+    tapescript:[
+      {speaker:'A', text:'Good morning Packham\'s Shipping Agents. Can I help you?'},
+      {speaker:'B', text:'Oh yes, I\'m ringing to make enquiries about sending a large box, a container, back home to Kenya from the UK.'},
+      {speaker:'A', text:'Yes, of course. Would you like me to try and find some quotations for you?'},
+      {speaker:'B', text:'Yes, that\'d be great. Thank you.'},
+      {speaker:'A', text:'Well first of all, I need a few details from you.'},
+      {speaker:'B', text:'Fine.'},
+      {speaker:'A', text:'Can I take your name?'},
+      {speaker:'B', text:'It\'s Jacob Mkere.'},
+      {speaker:'A', text:'Can you spell your surname, please?'},
+      {speaker:'B', text:'Yes, it\'s M-K-E-R-E.'},
+      {speaker:'A', text:'Is that "M" for mother?'},
+      {speaker:'B', text:'Yes.'},
+      {speaker:'A', text:'Thank you, and you say that you will be sending the box to Kenya?'},
+      {speaker:'B', text:'That\'s right.'},
+      {speaker:'A', text:'And where would you like the box picked up from?'},
+      {speaker:'B', text:'From college, if possible.'},
+      {speaker:'A', text:'Yes, of course. I\'ll take down the address now.'},
+      {speaker:'B', text:'It\'s Westall College.'},
+      {speaker:'A', text:'Is that W-E-S-T-A-L-L?'},
+      {speaker:'B', text:'Yes, ... college.'},
+      {speaker:'A', text:'Westall College. And where\'s that?'},
+      {speaker:'B', text:'It\'s Downlands Road, in Bristol.'},
+      {speaker:'A', text:'Oh yes, I know it. And the postcode?'},
+      {speaker:'B', text:'It\'s BS8 9PU.'},
+      {speaker:'A', text:'Right ... and I need to know the size.'},
+      {speaker:'B', text:'Yes, I\'ve measured it carefully and it\'s 1.5m long ...'},
+      {speaker:'A', text:'Right.'},
+      {speaker:'B', text:'0.75m wide ...'},
+      {speaker:'A', text:'OK.'},
+      {speaker:'B', text:'And it\'s 0.5m high or deep.'},
+      {speaker:'A', text:'Great. So I\'ll calculate the volume in a moment and get some quotes for that. But first can you tell me, you know, very generally, what will be in the box?'},
+      {speaker:'B', text:'Yes there\'s mostly clothes.'},
+      {speaker:'A', text:'OK. [writing down]'},
+      {speaker:'B', text:'And there\'s some books.'},
+      {speaker:'A', text:'OK. Good. Um ... Anything else?'},
+      {speaker:'B', text:'Yes, there\'s also some toys.'},
+      {speaker:'A', text:'OK and what is the total value, do you think, of the contents?'},
+      {speaker:'B', text:'Well the main costs are the clothes and the books — they\'ll be about £1500 but then the toys are about another two hundred — so I\'d put down £1700.'}
+    ],
+    questions:[
+      {num:1, prompt:'Name: Jacob ………………………', type:'text', answers:['Mkere'], explanation:'The customer spells his surname "M-K-E-R-E" → "Mkere".'},
+      {num:2, prompt:'Address to be collected from: ……………………… College, Downlands Rd', type:'text', answers:['Westall'], explanation:'The customer says "It\'s Westall College".'},
+      {num:3, prompt:'Postcode: ………………………', type:'text', answers:['BS8 9PU'], explanation:'The postcode is "BS8 9PU".'},
+      {num:4, prompt:'Width: ………………………', type:'text', answers:['0.75 m','0.75m','0.75 metres','0.75 meters','three-quarter','three-quarters','75 cm','75cm'], explanation:'Width is 0.75m (three-quarters of a metre / 75 cm).'},
+      {num:5, prompt:'Height: ………………………', type:'text', answers:['0.5 m','0.5m','0.5 metres','0.5 meters','half metre','half meter','50 cm','50cm'], explanation:'Height is 0.5m (half a metre / 50 cm).'},
+      {num:6, prompt:'Contents: clothes ………………………', type:'text', answers:['books'], explanation:'The customer mentions "there\'s some books" in addition to clothes.'},
+      {num:7, prompt:'Contents: ………………………', type:'text', answers:['toys'], explanation:'The customer adds "there\'s also some toys" (questions 6 and 7 are in either order).'},
+      {num:8, prompt:'Total estimated value: £ ………………………', type:'text', answers:['1700','1,700'], explanation:'The total value is "£1700" (about £1500 for clothes and books + £200 for toys).'}
+    ]
+  },
+  {
+    id:'matching',
+    label:'Task 2 — Matching',
+    title:'IELTS Listening — Matching',
+    subject:'Communication Studies — Optional courses for next semester',
+    instructions:'What does Jack tell his tutor about each of the following course options? A He\'ll definitely do it. B He may or may not do it. C He won\'t do it. Write the correct letter, A, B or C next to questions 21-25. You may choose any letter more than once.',
+    recordingName:'IELTS Listening Recording 2 — Communication Studies options',
+    audioSrc:null,
+    audioUrl:null,
+    showTapescript:true,
+    tapescript:[
+      {speaker:'Dr Ray', text:'Come in. Oh hello Alan. Have a seat.'},
+      {speaker:'Jack', text:'Right ... you said you wanted to see me to talk about your options next semester?'},
+      {speaker:'Dr Ray', text:'Yes, but the choice depends on your major to some extent. You\'re majoring in Communication Studies, aren\'t you?'},
+      {speaker:'Jack', text:'That\'s right. We have to decide by the end of next week. Really, I\'d like to do all five options but we have to choose two, don\'t we.'},
+      {speaker:'Dr Ray', text:'So for example the Media Studies Option will cover quite a lot of the same area you did in the core module on mass communications this semester — the development of the media through the last two centuries, in relation to political and social issues.'},
+      {speaker:'Jack', text:'Well that was interesting, but I\'ve decided I\'d rather do something completely new.'},
+      {speaker:'Dr Ray', text:'There\'s a Women\'s Studies option, isn\'t there? "Women and Power" — again it has a historical focus, it aims to contextualise women\'s studies by looking at the legal and social situation in the nineteenth and early twentieth centuries ...'},
+      {speaker:'Jack', text:'So it would be useful if I intended to specialise in women\'s studies ... but I\'m not sure I do actually.'},
+      {speaker:'Dr Ray', text:'Well, it might still be useful to give you an idea of the issues involved. It\'s taught by Dr Steed.'},
+      {speaker:'Jack', text:'Oh, really? I\'ll sign up for that, then.'},
+      {speaker:'Dr Ray', text:'What about the option on Culture and Society? That addresses the historical debate on the place of culture since the Industrial Revolution in Britain.'},
+      {speaker:'Jack', text:'So a historical focus again ...'},
+      {speaker:'Dr Ray', text:'Do I get the message you\'re not so keen on history?'},
+      {speaker:'Jack', text:'Well, it\'s just we seem to have done quite a lot this semester ... anyway I\'ll think about that one.'},
+      {speaker:'Dr Ray', text:'If you\'re interested in a course focusing on current issues there\'s the option on Identity and Popular Culture — that approaches the subject through things like contemporary film, adverts, soap operas and so on.'},
+      {speaker:'Jack', text:'Oh? That sounds interesting. Can you tell me who runs it?'},
+      {speaker:'Dr Ray', text:'Well, it\'s normally Dr Stevens but he\'s on sabbatical next semester, so I\'m not sure who\'ll be running it. It should be decided by next week though.'},
+      {speaker:'Jack', text:'Right, well I might wait until then to decide ...'},
+      {speaker:'Dr Ray', text:'And the last option is Introduction to Cultural Theory, isn\'t it. I\'m quite interested in that too — I was talking to one of the second year students, and she said it was really useful, it made a lot of things fall into place.'},
+      {speaker:'Jack', text:'Yes, but in fact in your major, you\'ll have covered a lot of that already in Communications 102, so that might be less useful than some of the others.'},
+      {speaker:'Dr Ray', text:'Oh, I\'ll forget about that one, then.'}
+    ],
+    questions:[
+      {num:21, prompt:'Media Studies', type:'radio', options:[['A','He\'ll definitely do it.'],['B','He may or may not do it.'],['C','He won\'t do it.']], answer:'C', explanation:'Jack says Media Studies "will cover quite a lot of the same area you did in the core module" and "I\'ve decided I\'d rather do something completely new" → won\'t do it. A: C.'},
+      {num:22, prompt:'Women and Power', type:'radio', options:[['A','He\'ll definitely do it.'],['B','He may or may not do it.'],['C','He won\'t do it.']], answer:'A', explanation:'Jack says "Oh, really? I\'ll sign up for that, then" → definitely will do it. A: A.'},
+      {num:23, prompt:'Culture and Society', type:'radio', options:[['A','He\'ll definitely do it.'],['B','He may or may not do it.'],['C','He won\'t do it.']], answer:'B', explanation:'Jack says "So a historical focus again ... anyway I\'ll think about that one" → uncertain. A: B.'},
+      {num:24, prompt:'Identity and Popular Culture', type:'radio', options:[['A','He\'ll definitely do it.'],['B','He may or may not do it.'],['C','He won\'t do it.']], answer:'B', explanation:'Jack is interested but says "I might wait until then to decide" about the instructor → may or may not. A: B.'},
+      {num:25, prompt:'Introduction to Cultural Theory', type:'radio', options:[['A','He\'ll definitely do it.'],['B','He may or may not do it.'],['C','He won\'t do it.']], answer:'C', explanation:'Jack says "you\'ll have covered a lot of that already in Communications 102, so that might be less useful" and "I\'ll forget about that one, then." A: C.'}
+    ]
+  },
+  {
+    id:'multiple-choice',
+    label:'Task 3 — Multiple Choice',
+    title:'IELTS Listening — Multiple Choice',
+    subject:'Shipping — Insurance and delivery options',
+    instructions:'Choose the correct letter, A, B or C for Questions 9 and 10.',
+    recordingName:'IELTS Listening Recording 2 — Insurance and delivery (last part of conversation)',
+    audioSrc:'/c/Users/mnaza/OneDrive/Рабочий стол/claude code/слушание/слушание 3/113203_Sample_Task_Type_2_Recording.mp3',
+    audioUrl:'file:///C:/Users/mnaza/OneDrive/Рабочий%20стол/claude%20code/%D1%81%D0%BB%D1%83%D1%88%D0%B0%D0%BD%D0%B8%D0%B5/%D1%81%D0%BB%D1%83%D1%88%D0%B0%D0%BD%D0%B8%D0%B5%203/113203_Sample_Task_Type_2_Recording.mp3',
+    showTapescript:true,
+    tapescript:[
+      {speaker:'A', text:'OK right. Now obviously insurance is an important thing to consider and our companies are able to offer very good rates in a number of different all-inclusive packages.'},
+      {speaker:'B', text:'Sorry, could you explain a bit more?'},
+      {speaker:'A', text:'Yes, sorry, um. There\'s really three rates according to quality of insurance cover — there\'s the highest comprehensive cover which is Premium rate, then there\'s standard rate and then there\'s economy rate. That one will only cover the cost of the contents second hand.'},
+      {speaker:'B', text:'Oh I\'ve been stung before with economy insurance so I\'ll go for the highest.'},
+      {speaker:'A', text:'Mh\'hm and can I just check would you want home delivery or to a local depot or would you want to pick it up at the nearest port?'},
+      {speaker:'B', text:'The port\'d be fine — I\'ve got transport that end.'},
+      {speaker:'A', text:'Fine and will you be paying by credit card?'},
+      {speaker:'B', text:'Can I pay by cheque?'}
+    ],
+    questions:[
+      {num:9, prompt:'Type of insurance chosen', type:'radio', options:[['A','Economy'],['B','Standard'],['C','Premium']], answer:'C', explanation:'The customer says "I\'ve been stung before with economy insurance so I\'ll go for the highest" → the highest comprehensive cover is Premium. A: C.'},
+      {num:10, prompt:'Customer wants goods delivered to', type:'radio', options:[['A','port'],['B','home'],['C','depot']], answer:'A', explanation:'The customer says "The port\'d be fine — I\'ve got transport that end." A: A.'}
+    ]
+  },
+  {
+    id:'short-answer',
+    label:'Task 4 — Short-answer Questions',
+    title:'IELTS Listening — Short-answer Questions',
+    subject:'Making social contacts in the UK — British Council talk',
+    instructions:'Answer the questions below. Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.',
+    recordingName:'IELTS Listening Recording 3 — Talk on social contacts in the UK',
+    audioSrc:'/c/Users/mnaza/OneDrive/Рабочий стол/claude code/слушание/слушание 4/113205_Sample_Task_Type_3_Recording.mp3',
+    audioUrl:'file:///C:/Users/mnaza/OneDrive/Рабочий%20стол/claude%20code/%D1%81%D0%BB%D1%83%D1%88%D0%B0%D0%BD%D0%B8%D0%B5/%D1%81%D0%BB%D1%83%D1%88%D0%B0%D0%BD%D0%B8%D0%B5%204/113205_Sample_Task_Type_3_Recording.mp3',
+    showTapescript:true,
+    tapescript:[
+      {speaker:'John Parker', text:'Good evening, and welcome to the British Council. My name is John Parker and I\'ve been asked to talk to you briefly about certain aspects of life in the UK before you actually go there. So I\'m going to talk first about the best ways of making social contacts there.'},
+      {speaker:'John Parker', text:'Now you might be wondering why it should be necessary. After all, we meet people all the time. But when you\'re living in a foreign country it can be more difficult, not just because of the language, but because customs may be different.'},
+      {speaker:'John Parker', text:'If you\'re going to work in the UK you will probably be living in private accommodation, so it won\'t be quite so easy to meet people. But there are still things that you can do to help yourself. First of all, you can get involved in activities in your local community, join a group of some kind.'},
+      {speaker:'John Parker', text:'For example, you\'ll probably find that there are theatre groups who might be looking for actors, set designers and so on, or if you play an instrument you could join music groups in your area. Or if you like the idea of finding out about local history there\'ll be a group for that too. These are just examples.'},
+      {speaker:'John Parker', text:'And the best places to get information about things like this are either the town hall or the public library. Libraries in the UK perform quite a broad range of functions nowadays — they\'re not just confined to lending books, although that\'s their main role of course.'}
+    ],
+    questions:[
+      {num:11, prompt:'What TWO factors can make social contact in a foreign country difficult? (Write both answers)', type:'text', answers:['language','customs','language customs','customs language','language / customs','customs / language'], explanation:'The speaker says "not just because of the language, but because customs may be different." Both "language" and "customs" are required. Questions 11 and 12 are interchangeable.'},
+      {num:12, prompt:'(Second factor — write both answers)', type:'text', answers:['language','customs','language customs','customs language','language / customs','customs / language'], explanation:'Duplicate question paired with 11 — both answers accepted. The two factors are "language" and "customs" in either order.'},
+      {num:13, prompt:'Which types of community group does the speaker give examples of? theatre ………………………', type:'text', answers:['music','music groups','local history','local history groups','music (groups)','local history (groups)'], explanation:'Examples given: theatre groups, music groups, local history groups. Questions 13 and 14 are interchangeable.'},
+      {num:14, prompt:'(Second group example — write both answers)', type:'text', answers:['music','music groups','local history','local history groups','music (groups)','local history (groups)'], explanation:'Duplicate with question 13. Two examples: "music groups" and "local history groups" in either order.'},
+      {num:15, prompt:'In which TWO places can information about community activities be found? ………………………', type:'text', answers:['library','libraries','public library','public libraries','the library','the libraries','town hall','the town hall'], explanation:'Places mentioned: "the town hall or the public library". Questions 15 and 16 are interchangeable.'},
+      {num:16, prompt:'(Second place — write both answers)', type:'text', answers:['library','libraries','public library','public libraries','the library','the libraries','town hall','the town hall'], explanation:'Duplicate with question 15. Two places: "town hall" and "public library" (or "libraries") in either order.'}
+    ]
+  }
+];
+let listeningState = {
+  taskId: null,
+  audio: null,
+  audioSrc: null,
+  isPlaying: false,
+  startTime: 0,
+  pausedAt: 0,
+  duration: 0
+};
+function renderListeningSub(){
+  const container = document.getElementById('listening-task-container');
+  const task = currentSubSection ? LISTENING_TASKS.find(t=>t.id===currentSubSection) : LISTENING_TASKS[0];
+  listeningState.taskId = task.id;
+  listeningState.audio = null;
+  listeningState.audioSrc = task.audioSrc;
+  listeningState.isPlaying = false;
+  listeningState.pausedAt = 0;
+  let html = `
+    <div class="page-header">
+      <h1>${task.title}</h1>
+      <div class="accent">${task.label}</div>
+      <p>${task.instructions}</p>
+    </div>
+    <div class="listening-layout">
+      <div class="audio-player-panel">
+        <div class="player-label">Audio Recording</div>
+        <div class="recording-name">${task.recordingName}</div>
+        ${task.audioSrc
+          ? `<div class="audio-controls">
+              <button class="play-btn" id="btn-play-audio">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+              </button>
+              <div class="time-display" id="time-current">0:00</div>
+              <div class="progress-bar" id="progress-bar"><div class="fill" id="progress-fill"></div></div>
+              <div class="time-display" id="time-total">0:00</div>
+            </div>`
+          : `<div style="padding:12px 16px;background:rgba(255,80,80,0.06);border:1px solid rgba(255,80,80,0.15);border-radius:var(--radius-md);font-family:var(--font-ui);font-size:12px;color:#FF6B6B;text-transform:none;line-height:1.5;"><strong>Note:</strong> No audio recording provided. Use the tapescript below to practise reading along.</div>`
+        }
+        ${task.showTapescript ? `<details style="margin-top:8px;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;">
+          <summary style="font-family:var(--font-heading);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text);cursor:pointer;list-style:none;padding:5px 0;">Tapescript (for reference)</summary>
+          <div style="margin-top:8px;font-family:var(--font-ui);font-size:13px;color:var(--muted);line-height:1.6;text-transform:none;">
+            ${task.tapescript.map(t=>`<div><strong style="color:var(--neon);">${t.speaker}:</strong> ${t.text}</div>`).join('')}
+          </div>
+        </details>` : ''}
+      </div>
+      <div class="listening-content-panel">
+        <h2>Questions</h2>
+        <div class="instructions">${task.instructions}</div>
+        ${task.questions.map(q=>renderListeningQ(q)).join('')}
+        <div class="listening-action">
+          <button class="btn-check" id="btn-check-listening">Check Answers</button>
+          <span class="listening-score" id="listening-score"></span>
+        </div>
+      </div>
+    </div>
+  `;
+  container.innerHTML = html;
+  if(task.audioSrc){
+    setupAudioPlayer(task);
+  }
+  document.getElementById('btn-check-listening').onclick = ()=>checkListening(task.id);
+  document.getElementById('listening-score').classList.remove('show');
+}
+function renderListeningQ(q){
+  let inner = '';
+  if(q.type==='text'){
+    inner = `<input type="text" id="lq-${q.num}" placeholder="Your answer" />`;
+  } else if(q.type==='radio'){
+    inner = `<div class="radio-group">`;
+    q.options.forEach(o=>{
+      inner += `<label class="radio-opt"><input type="radio" name="lq-${q.num}" value="${o[0]}"><span><strong>${o[0]}.</strong> ${o[1]}</span></label>`;
+    });
+    inner += `</div>`;
+  }
+  return `
+    <div class="listening-question" id="lqrow-${q.num}">
+      <span class="q-num">${q.num}</span><span class="q-text">${q.prompt}</span>
+      ${inner}
+      <div class="explanation" id="lq-exp-${q.num}"></div>
+    </div>`;
+}
+function checkListening(taskId){
+  const task = LISTENING_TASKS.find(t=>t.id===taskId);
+  if(!task){ console.error('Task not found:', taskId); return; }
+  const questions = task.questions;
+  let correctCount = 0;
+  questions.forEach(q=>{
+    const row = document.getElementById('lqrow-'+q.num);
+    const exp = document.getElementById('lq-exp-'+q.num);
+    if(!row || !exp) return;
+    let userVal = '';
+    let ok = false;
+    let inputEl = null;
+    if(q.type==='radio'){
+      const checked = document.querySelector('input[name="lq-'+q.num+'"]:checked');
+      inputEl = checked;
+      userVal = checked ? checked.value : '';
+      ok = userVal === q.answer;
+    } else {
+      const field = document.getElementById('lq-'+q.num);
+      inputEl = field;
+      userVal = field ? field.value.trim() : '';
+      if(userVal){
+        ok = q.answers.some(a => norm(a) === norm(userVal));
+      }
+    }
+    row.classList.remove('correct','incorrect');
+    const existingTag = row.querySelector('.result-tag');
+    if(existingTag) existingTag.remove();
+    if(userVal){
+      if(ok){
+        correctCount++;
+        row.classList.add('checked','correct');
+        const tag = document.createElement('span');
+        tag.className = 'result-tag correct';
+        tag.textContent = 'Correct';
+        const qText = row.querySelector('.q-text');
+        if(qText) qText.after(tag);
+      } else {
+        row.classList.add('checked','incorrect');
+        const tag = document.createElement('span');
+        tag.className = 'result-tag incorrect';
+        tag.textContent = 'Incorrect';
+        const qText = row.querySelector('.q-text');
+        if(qText) qText.after(tag);
+      }
+      const correctAnswerText = q.answers[0] || q.answer || '';
+      exp.innerHTML = (ok ? '' : '<strong>Correct answer:</strong> ' + correctAnswerText + '. ') + (q.explanation || '');
+    }
+  });
+  const pill = document.getElementById('listening-score');
+  if(pill){
+    pill.textContent = correctCount + ' / ' + questions.length + ' correct';
+    pill.classList.add('show');
+  }
+}
+/* -------- Audio player logic -------- */
+function setupAudioPlayer(task){
+  const container = document.getElementById('listening-task-container');
+  const playBtn = document.getElementById('btn-play-audio');
+  const timeCurrent = document.getElementById('time-current');
+  const timeTotal = document.getElementById('time-total');
+  const progressFill = document.getElementById('progress-fill');
+  const progressBar = document.getElementById('progress-bar');
+  let audio = new Audio(task.audioUrl);
+  listeningState.audio = audio;
+  listeningState.audioSrc = task.audioSrc;
+  audio.addEventListener('loadedmetadata', ()=>{
+    listeningState.duration = audio.duration;
+    timeTotal.textContent = formatTime(audio.duration);
+  });
+  audio.addEventListener('timeupdate', ()=>{
+    if(audio.duration){
+      const pct = (audio.currentTime / audio.duration) * 100;
+      progressFill.style.width = pct + '%';
+      timeCurrent.textContent = formatTime(audio.currentTime);
+    }
+  });
+  audio.addEventListener('ended', ()=>{
+    listeningState.isPlaying = false;
+    playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>';
+    progressFill.style.width = '0%';
+    timeCurrent.textContent = '0:00';
+    audio.currentTime = 0;
+  });
+  playBtn.onclick = ()=>{
+    if(listeningState.isPlaying){
+      audio.pause();
+      listeningState.isPlaying = false;
+      listeningState.pausedAt = audio.currentTime;
+      playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>';
+    } else {
+      if(audio.src && listeningState.pausedAt > 0){
+        audio.currentTime = listeningState.pausedAt;
+      } else if(!audio.src){
+        audio.src = task.audioUrl;
+        audio.load();
+      }
+      audio.play().catch(e=>{
+        console.warn('Playback failed:', e);
+        playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>';
+      });
+      listeningState.isPlaying = true;
+      playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+    }
+  };
+  progressBar.onclick = (e)=>{
+    if(audio.duration){
+      const rect = progressBar.getBoundingClientRect();
+      const pct = (e.clientX - rect.left) / rect.width;
+      audio.currentTime = pct * audio.duration;
+    }
+  };
+  const observer = new MutationObserver(()=>{
+    if(!container || !container.parentElement){
+      audio.pause();
+      audio.src = '';
+      audio.load();
+      observer.disconnect();
+    }
+  });
+  observer.observe(container, {childList:true, subtree:true});
+}
+function formatTime(seconds){
+  if(!seconds || isNaN(seconds)) return '0:00';
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return m + ':' + (s < 10 ? '0' : '') + s;
+}
+/* ==================================================
+   INIT
+   ================================================== */
+document.addEventListener('DOMContentLoaded', ()=>{
+  navigate('landing');
+});
+</script>
+</body>
+</html>
