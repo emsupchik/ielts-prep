@@ -1,3 +1,1803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preparing for IELTS Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Condiment&display=swap" rel="stylesheet">
+<style>
+  /* Force black immediately */
+  html, body { background: #000000 !important; color: #ffffff; }
+  html, body { background: #000000; background: var(--bg, #000000); color: #ffffff; color: var(--text, #ffffff); }
+
+  :root {
+    --bg: #000000;
+    --text: #ffffff;
+    --muted: #9a9a9a;
+    --stat: #d8d8d8;
+    --border: rgba(255, 255, 255, 0.16);
+    --border-soft: rgba(255, 255, 255, 0.12);
+
+    --logo: 15.5px;
+    --logo-mark: 22px;
+    --nav: 14px;
+    --nav-h: 40px;
+    --btn: 13.5px;
+    --btn-h: 40px;
+    --hero-btn-h: 42px;
+    --h1: 48px;
+    --lede: 15.5px;
+    --badge: 12.5px;
+    --stat-size: 13.5px;
+    --header-y: 22px;
+    --header-x: 40px;
+    --stats-x: 72px;
+    --stats-y: 36px;
+    --hero-gap: 85px;
+    --copy-max: 860px;
+    --lede-max: 470px;
+
+    --font-heading: 'Anton', sans-serif;
+    --font-accent: 'Condiment', cursive;
+    --font-body: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    --font-ui: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-serif: "Instrument Serif", "Times New Roman", Times, serif;
+  }
+
+  @font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("inter.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Instrument Serif";
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url("instrument-serif-italic.woff2") format("woff2");
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    position: relative;
+    font-family: var(--font-ui);
+    background: #000;
+    color: #fff;
+    min-height: 100vh;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* -------- Grain overlay -------- */
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>');
+  }
+
+  /* -------- App router -------- */
+  .page {
+    display: none;
+    min-height: 100vh;
+    animation: fadeIn 0.5s ease both;
+  }
+  .page.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .page { animation: none !important; transition: none !important; }
+  }
+
+  /* -------- Liquid glass -------- */
+  .liquid-glass {
+    background: rgba(255,255,255,0.01);
+    background-blend-mode: luminosity;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: none;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  .liquid-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.4px;
+    background: linear-gradient(180deg,
+      rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.15) 20%,
+      rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%,
+      rgba(255,255,255,0.15) 80%, rgba(255,255,255,0.45) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* -------- Texture overlay -------- */
+  .texture-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" seed="2"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.5"/></svg>');
+    background-size: cover;
+    mix-blend-mode: lighten;
+    opacity: 0.4;
+  }
+
+  /* -------- Buttons (liquid glass + shine) -------- */
+  .btn {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--btn-h);
+    padding: 0 16px;
+    border-radius: 6px;
+    font-family: var(--font-ui);
+    font-size: var(--btn);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, color 0.35s ease, filter 0.35s ease;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.03);
+    color: var(--text);
+  }
+  .btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.45) 48%, transparent 76%);
+    transform: translateX(-130%);
+    transition: transform 0.65s ease;
+    pointer-events: none;
+  }
+  .btn:hover::after { transform: translateX(130%); }
+
+  /* Solid button (white) */
+  .btn-solid {
+    background: linear-gradient(180deg, #ffffff 0%, #e7e7e7 48%, #cfcfcf 100%);
+    color: #111;
+    border: 1px solid #fff;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.95);
+  }
+  .btn-solid:hover {
+    background: linear-gradient(180deg, #ffffff 0%, #f3f6ff 42%, #d5def2 100%);
+    border-color: #f2f6ff;
+    box-shadow: inset 0 1px 0 #fff, 0 0 22px rgba(186,208,255,0.35), 0 8px 18px rgba(255,255,255,0.12);
+  }
+
+  /* Ghost button (frosted) */
+  .btn-ghost {
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,0,0,0.45) 50%, rgba(160,175,200,0.08));
+    color: #fff;
+    border: 1px solid rgba(198,198,198,0.45);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+  }
+  .btn-ghost:hover {
+    background: linear-gradient(135deg, rgba(210,225,255,0.18) 0%, rgba(0,0,0,0.35) 48%, rgba(180,195,220,0.16) 100%);
+    border-color: rgba(220,230,255,0.75);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 0 20px rgba(170,200,255,0.22);
+  }
+
+  /* Hero-sized buttons */
+  .btn-hero {
+    height: var(--hero-btn-h);
+    padding: 0 18px;
+  }
+  .btn-hero.btn-solid:hover {
+    box-shadow: inset 0 1px 0 #fff, 0 0 26px rgba(186,208,255,0.4), 0 8px 18px rgba(255,255,255,0.14);
+  }
+  .btn-hero.btn-ghost {
+    background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(0,0,0,0.5) 46%, rgba(150,170,200,0.1) 100%);
+    border: 1px solid rgba(198,198,198,0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  .btn-hero.btn-ghost:hover {
+    box-shadow: 0 0 24px rgba(170,200,255,0.28);
+    border-color: rgba(220,230,255,0.8);
+  }
+
+  /* Back button */
+  .btn-back {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 8px 14px;
+    transition: color 0.2s ease;
+  }
+  .btn-back:hover { color: var(--text); }
+
+  /* -------- Page: Landing -------- */
+  #page-landing {
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    background: var(--bg);
+  }
+  #page-landing video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.35;
+  }
+  #page-landing .landing-content {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 60px;
+    background: var(--bg);
+  }
+  .landing-eyebrow {
+    font-family: var(--font-accent);
+    font-size: clamp(20px, 4vw, 38px);
+    color: var(--neon);
+    text-transform: none;
+    mix-blend-mode: exclusion;
+    opacity: 0.9;
+    margin-bottom: 18px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .landing-title {
+    font-family: var(--font-heading);
+    font-size: clamp(32px, 6vw, 68px);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text);
+    line-height: 1.05;
+    max-width: 16ch;
+    margin: 0 auto 20px;
+  }
+  .landing-sub {
+    font-family: var(--font-ui);
+    font-size: clamp(12px, 1.3vw, 15px);
+    color: var(--muted);
+    max-width: 480px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .btn-start {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 6px;
+    padding: 14px 32px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+  }
+  .btn-start::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.35) 48%, transparent 76%);
+    transform: translateX(-130%);
+    transition: transform 0.65s ease;
+    pointer-events: none;
+  }
+  .btn-start:hover::after { transform: translateX(130%); }
+  .btn-start:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.25);
+    box-shadow: 0 0 18px rgba(102,255,0,0.15);
+  }
+  .btn-start:active { transform: scale(0.98); }
+
+  /* -------- Logo (Vesper-style) -------- */
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-size: var(--logo, 15.5px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+  .logo .logo-mark {
+    width: var(--logo-mark, 22px);
+    height: var(--logo-mark, 22px);
+    display: block;
+    color: var(--neon);
+  }
+  .logo .logo-suffix {
+    font-weight: 400;
+    opacity: 0.7;
+  }
+
+  /* -------- Nav -------- */
+  #site-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+  #site-nav a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    height: var(--nav-h, 40px);
+    padding: 0 18px;
+    font-family: var(--font-ui);
+    font-size: var(--nav, 14px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    text-decoration: none;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 7px;
+    overflow: hidden;
+    transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    cursor: pointer;
+  }
+  #site-nav a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.16) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 0.6s ease;
+    pointer-events: none;
+  }
+  #site-nav a:hover {
+    background: linear-gradient(105deg, #111 0%, #3a3a3a 45%, #6a6a6a 100%);
+    border-color: rgba(235,235,235,0.9);
+    box-shadow: 0 0 18px rgba(200,210,230,0.18);
+  }
+  #site-nav a:hover::before { transform: translateX(120%); }
+
+  /* -------- Burger -------- */
+  .burger {
+    display: none;
+    width: 42px;
+    height: 42px;
+    margin-left: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    align-self: center;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .burger:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.32);
+  }
+  .burger .bar {
+    position: absolute;
+    left: 50%;
+    width: 16px;
+    height: 1.5px;
+    background: var(--text);
+    border-radius: 1px;
+    transform: translateX(-50%);
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+  .burger .bar-1 { top: 13px; }
+  .burger .bar-2 { top: 20px; }
+  .burger .bar-3 { top: 27px; }
+
+  /* -------- Page: Section picker -------- */
+  #page-sections {
+    min-height: 100vh;
+    padding: 60px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--bg);
+  }
+  .sections-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .sections-header h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(36px, 5vw, 60px);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 14px;
+    color: var(--text);
+  }
+  .sections-header p {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
+  }
+  .sections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    width: 100%;
+    max-width: 960px;
+  }
+  .section-card {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 360px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .section-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(102,255,0,0.12);
+  }
+  .section-card-bg {
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    z-index: 0;
+  }
+  .section-card-content {
+    position: relative;
+    z-index: 1;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .section-card-num {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    color: var(--neon);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .section-card-title {
+    font-family: var(--font-heading);
+    font-size: clamp(24px, 3vw, 32px);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text);
+    line-height: 1.1;
+    margin: 0 0 6px;
+  }
+  .section-card-accent {
+    font-family: var(--font-accent);
+    font-size: clamp(18px, 2vw, 26px);
+    color: var(--neon);
+    mix-blend-mode: exclusion;
+    text-transform: none;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .section-card-desc {
+    font-family: var(--font-ui);
+    font-size: 12.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1.6;
+    flex: 1;
+    margin: 0;
+  }
+  .section-card-arrow {
+    margin-top: 18px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .section-card:hover .section-card-arrow {
+    border-color: var(--neon);
+    color: var(--neon);
+  }
+  .section-card-arrow svg { width: 16px; height: 16px; }
+
+  /* -------- Shared breadcrumb / header -------- */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+    font-family: var(--font-heading);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .breadcrumb a { color: var(--muted); transition: color 0.2s ease; }
+  .breadcrumb a:hover { color: var(--neon); }
+  .breadcrumb span.current { color: var(--neon); }
+
+  .page-header {
+    margin-bottom: 32px;
+  }
+  .page-header h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(28px, 3.5vw, 44px);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin: 0 0 6px;
+  }
+  .page-header .accent {
+    font-family: var(--font-accent);
+    font-size: clamp(18px, 2.2vw, 28px);
+    color: var(--neon);
+    mix-blend-mode: exclusion;
+    text-transform: none;
+    margin-bottom: 12px;
+  }
+  .page-header p {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0;
+    max-width: 720px;
+    line-height: 1.6;
+  }
+
+  /* -------- Page: Reading -------- */
+  #page-reading{
+    min-height:100vh;
+    padding:40px 24px 80px;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  .reading-layout{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:28px;
+    align-items:start;
+  }
+  @media (max-width:900px){ .reading-layout{ grid-template-columns:1fr; } }
+
+  .passage-panel{
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:var(--radius-lg);
+    padding:24px 28px;
+    max-height:620px;
+    overflow-y:auto;
+  }
+  .passage-panel h2 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin: 0 0 16px;
+  }
+  .passage-panel p {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--text);
+    margin: 0 0 14px;
+  }
+  .passage-panel .section-label {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    color: var(--neon);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .passage-panel .word-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    background: rgba(255,255,255,0.02);
+    border: 1px dashed rgba(255,255,255,0.08);
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    margin: 18px 0;
+  }
+  .passage-panel .word-list span {
+    font-size: 12px;
+    color: var(--text);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 4px 10px;
+    border-radius: 14px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .questions-panel{
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:var(--radius-lg);
+    padding:24px 28px;
+  }
+  .questions-panel h2 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin: 0 0 6px;
+  }
+  .questions-panel .instructions {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1.55;
+    margin-bottom: 20px;
+  }
+  .q-row {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .q-row:first-of-type { padding-top: 0; }
+  .q-row:last-of-type { border-bottom: none; }
+  .q-num {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    color: var(--neon);
+    letter-spacing: 0.08em;
+    margin-right: 8px;
+    text-transform: uppercase;
+  }
+  .q-prompt {
+    font-family: var(--font-ui);
+    font-size: 13.5px;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.5;
+    text-transform: none;
+  }
+  .q-row input[type="text"],
+  .q-row select {
+    width: 100%;
+    font-family: var(--font-ui);
+    font-size: 13.5px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.02);
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.2s ease;
+    text-transform: none;
+  }
+  .q-row input[type="text"]:focus,
+  .q-row select:focus{
+    outline:none;
+    border-color:var(--neon);
+  }
+  .radio-group{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .radio-opt{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    font-family:var(--font-ui);
+    font-size:13.5px;
+    color:var(--text);
+    cursor:pointer;
+    padding:6px 8px;
+    border-radius:var(--radius-sm);
+    transition:background .15s ease;
+    text-transform:none;
+    line-height:1.4;
+  }
+  .radio-opt:hover{ background:rgba(255,255,255,0.03); }
+  .radio-opt input{ margin-top:3px; accent-color:var(--neon); }
+
+  .result-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-heading);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 10px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .result-tag.correct { background: rgba(102,255,0,0.1); color: var(--neon); }
+  .result-tag.incorrect { background: rgba(255,80,80,0.1); color: #FF6B6B; }
+
+  .explanation {
+    margin-top: 6px;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.55;
+    background: rgba(255,255,255,0.02);
+    border-left: 2px solid rgba(255,255,255,0.08);
+    padding: 8px 12px;
+    display: none;
+    text-transform: none;
+  }
+  .q-row.checked .explanation { display: block; }
+  .q-row.checked.incorrect .explanation { border-left-color: #FF6B6B; }
+  .q-row.checked.correct .explanation { border-left-color: var(--neon); }
+
+  .q-row.checked input[type="text"],
+  .q-row.checked select { border-color: rgba(255,255,255,0.08); }
+  .q-row.checked.correct input[type="text"],
+  .q-row.checked.correct select { border-color: var(--neon); }
+  .q-row.checked.incorrect input[type="text"],
+  .q-row.checked.incorrect select { border-color: #FF6B6B; }
+
+  .reading-action{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:24px;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn-check {
+    font-family: var(--font-heading);
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 13px 28px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .btn-check:hover {
+    background: rgba(255,255,255,0.04);
+    border-color: var(--neon);
+    color: var(--neon);
+  }
+  .score-pill {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 10px 18px;
+    border-radius: 20px;
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  .score-pill.show{ display:inline-block; }
+
+  /* ads / countries / headings */
+  .ad-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text);
+    text-transform: none;
+  }
+  .ad-grid .ad {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+  }
+  .ad-grid .ad strong {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    color: var(--text);
+    display: block;
+    margin-bottom: 5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .ad-grid .ad .code {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    color: var(--neon);
+    display: block;
+    margin-bottom: 6px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .countries-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .country-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 8px 6px;
+    border-radius: var(--radius-sm);
+    text-align: center;
+  }
+  .country-card .code {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    color: var(--neon);
+    display: block;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .country-card .name {
+    font-family:var(--font-ui);
+    font-size:10px;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+  @media (max-width:768px){ .countries-grid{ grid-template-columns:repeat(3,1fr); } }
+
+  .headings-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-bottom:14px;
+  }
+  .headings-grid span {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--text);
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .headings-grid .heading-letter {
+    font-family: var(--font-heading);
+    color: var(--neon);
+    margin-right: 4px;
+    font-size: 13px;
+  }
+
+  /* -------- Page: Writing -------- */
+  #page-writing{
+    min-height:100vh;
+    padding:40px 24px 80px;
+    max-width:960px;
+    margin:0 auto;
+  }
+  .writing-prompt-card{
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:var(--radius-lg);
+    padding:24px 28px;
+    margin-bottom:24px;
+  }
+  .writing-prompt-card .prompt-box{
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:var(--radius-md);
+    padding:18px 22px;
+    font-family:var(--font-ui);
+    font-size:15px;
+    line-height:1.7;
+    color:var(--text);
+    font-style:italic;
+    margin:12px 0;
+    text-transform:none;
+  }
+  .writing-prompt-card .meta-row{
+    display:flex;
+    gap:20px;
+    font-family:var(--font-ui);
+    font-size:12px;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:6px;
+    flex-wrap:wrap;
+  }
+  .writing-prompt-card .prompt-info{
+    font-family:var(--font-ui);
+    font-size:13px;
+    color:var(--text);
+    line-height:1.6;
+    text-transform:none;
+  }
+
+  .essay-area{
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:var(--radius-lg);
+    padding:22px 26px;
+    margin-bottom:24px;
+  }
+  .essay-area textarea{
+    width:100%;
+    min-height:280px;
+    font-family:var(--font-ui);
+    font-size:14px;
+    line-height:1.7;
+    padding:16px 18px;
+    background:rgba(255,255,255,0.02);
+    color:var(--text);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:var(--radius-md);
+    resize:vertical;
+    transition:border-color .2s ease;
+    text-transform:none;
+  }
+  .essay-area textarea:focus{
+    outline:none;
+    border-color:var(--neon);
+  }
+  .word-count-display{
+    font-family:var(--font-ui);
+    font-size:12px;
+    color:var(--muted);
+    margin-top:8px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+  .word-count-display.ok{ color:var(--neon); }
+  .word-count-display.low{ color:#FF6B6B; }
+
+  .writing-action{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+
+  .writing-criteria {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  @media (max-width:768px) { .writing-criteria { grid-template-columns: 1fr; } }
+  .criteria-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+  }
+  .criteria-card h3 {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    color: var(--text);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+  }
+  .criteria-card p {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin: 0;
+    text-transform: none;
+  }
+
+  .writing-feedback {
+    margin-top: 20px;
+    display: none;
+  }
+  .writing-feedback.show { display: block; animation: fadeIn 0.3s ease; }
+  .check-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--text);
+    text-transform: none;
+  }
+  .check-row:last-child { border-bottom: none; }
+  .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot.ok { background: var(--neon); }
+  .dot.warn { background: #FF6B6B; }
+
+  /* -------- Page: Listening -------- */
+  #page-listening{
+    min-height:100vh;
+    padding:40px 24px 80px;
+    max-width:960px;
+    margin:0 auto;
+  }
+  .listening-layout{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:24px;
+  }
+
+  .audio-player-panel{
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:var(--radius-lg);
+    padding:24px 28px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .audio-player-panel .player-label {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .audio-player-panel .recording-name {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .audio-controls {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 6px;
+  }
+  .play-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: var(--neon);
+    color: var(--bg);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, background 0.2s ease;
+    flex-shrink: 0;
+  }
+  .play-btn:hover { transform: scale(1.05); background: #7FFF20; }
+  .play-btn:active { transform: scale(0.97); }
+  .play-btn svg { width: 20px; height: 20px; }
+  .time-display {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--text);
+    min-width: 60px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-bar .fill{
+    height:100%;
+    background:var(--neon);
+    border-radius:2px;
+    width:0%;
+    transition:width .1s linear;
+  }
+  .progress-bar:hover .fill{ opacity:0.8; }
+
+  .listening-content-panel{
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:var(--radius-lg);
+    padding:24px 28px;
+  }
+  .listening-content-panel h2 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin: 0 0 6px;
+  }
+  .listening-content-panel .instructions {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1.55;
+    margin-bottom: 18px;
+  }
+  .listening-question {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .listening-question:last-child { border-bottom: none; }
+  .listening-question .q-num {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    color: var(--neon);
+    letter-spacing: 0.08em;
+    margin-right:8px;
+    text-transform:uppercase;
+    display:inline-block;
+  }
+  .listening-question .q-text {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    color: var(--text);
+    display: inline;
+    text-transform: none;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  .listening-question input[type="text"] {
+    width: 100%;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.02);
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.2s ease;
+    text-transform: none;
+  }
+  .listening-question input[type="text"]:focus {
+    outline: none;
+    border-color: var(--neon);
+  }
+  .listening-question .result-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-heading);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 10px;
+    margin-left: 8px;
+    vertical-align:middle;
+  }
+  .listening-question .result-tag.correct { background: rgba(102,255,0,0.1); color: var(--neon); }
+  .listening-question .result-tag.incorrect { background: rgba(255,80,80,0.1); color: #FF6B6B; }
+  .listening-question .explanation {
+    margin-top: 6px;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.55;
+    background: rgba(255,255,255,0.02);
+    border-left: 2px solid rgba(255,255,255,0.08);
+    padding: 8px 12px;
+    display: none;
+    text-transform: none;
+  }
+  .listening-question.checked .explanation { display: block; }
+  .listening-question.checked.incorrect .explanation { border-left-color: #FF6B6B; }
+  .listening-question.checked.correct .explanation { border-left-color: var(--neon); }
+  .listening-question.checked input[type="text"] { border-color: rgba(255,255,255,0.08); }
+  .listening-question.checked.correct input[type="text"] { border-color: var(--neon); }
+  .listening-question.checked.incorrect input[type="text"] { border-color: #FF6B6B; }
+
+  .listening-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .listening-score {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 10px 18px;
+    border-radius: 20px;
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+
+  footer.credits {
+    text-align: center;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    color: var(--muted);
+    padding: 24px 0 40px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width:640px){
+    .passage-panel,
+    .questions-panel,
+    .writing-prompt-card,
+    .essay-area,
+    .audio-player-panel,
+    .listening-content-panel{
+      padding:18px 14px;
+    }
+  }
+
+  .appear--scale { opacity: 0; transform: scale(0.96); animation: aS 0.5s ease both; }
+  .appear--soft { opacity: 0; transform: translateY(8px); animation: aS 0.5s ease 0.08s both; }
+  @keyframes aS { to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="texture-overlay"></div>
+
+<!-- ==================== PAGE: LANDING ==================== -->
+<div id="page-landing" class="page active">
+  <video autoplay loop muted playsinline poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Crect fill='%23000000' width='800' height='600'/%3E%3C/svg%3E">
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260331_045634_e1c98c76-1265-4f5c-882a-4276f2080894.mp4" type="video/mp4">
+  </video>
+  <div class="landing-content">
+    <div class="landing-eyebrow">Exam preparation platform</div>
+    <h1 class="landing-title">Master the<br>International English<br>Language Testing System</h1>
+    <p class="landing-sub">Practice Reading, Writing, and Listening — real IELTS-style tasks with instant feedback.</p>
+    <button class="btn-start" onclick="navigate('sections')">Start Training</button>
+  </div>
+</div>
+
+<!-- ==================== PAGE: SECTIONS ==================== -->
+<div id="page-sections" class="page">
+  <div class="sections-header">
+    <h1>Choose Your Section</h1>
+    <p>Select a skill to practice</p>
+  </div>
+  <div class="sections-grid">
+    <div class="section-card" onclick="navigate('reading')">
+      <div class="section-card-bg"></div>
+      <div class="section-card-content">
+        <div class="section-card-num">Section 01</div>
+        <h2 class="section-card-title">General Training<br>Reading</h2>
+        <div class="section-card-accent">Texts & comprehension</div>
+        <p class="section-card-desc">
+          8 practice tasks covering every question type: Flow-chart completion, Identifying information, Matching information, Matching features, Matching headings, Multiple choice, Sentence completion, and Short-answer questions.
+        </p>
+        <div class="section-card-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="section-card" onclick="navigate('writing')">
+      <div class="section-card-bg"></div>
+      <div class="section-card-content">
+        <div class="section-card-num">Section 02</div>
+        <h2 class="section-card-title">General Training<br>Writing</h2>
+        <div class="section-card-accent">Letters & essays</div>
+        <p class="section-card-desc">
+          Task 1 — write a letter (150+ words). Task 2 — write an essay (250+ words). Get instant word and paragraph checks plus assessment criteria and sample band-scored scripts.
+        </p>
+        <div class="section-card-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="section-card" onclick="navigate('listening')">
+      <div class="section-card-bg"></div>
+      <div class="section-card-content">
+        <div class="section-card-num">Section 03</div>
+        <h2 class="section-card-title">Listening</h2>
+        <div class="section-card-accent">Audio & comprehension</div>
+        <p class="section-card-desc">
+          4 practice tasks with real audio recordings: Form completion, Matching, Multiple choice, and Short-answer questions. Play the audio, answer the questions, then check your answers.
+        </p>
+        <div class="section-card-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE: READING ==================== -->
+<div id="page-reading" class="page">
+  <div class="breadcrumb">
+    <button class="btn-back" onclick="navigate('sections')">← Back</button>
+    <a href="#" onclick="navigate('sections');return false;">Sections</a>
+    <span>/</span>
+    <span class="current">General Training Reading</span>
+  </div>
+  <div id="reading-task-container"></div>
+  <div class="reading-action">
+    <button class="btn-check" id="btn-check-reading">Check Answers</button>
+    <span class="score-pill" id="reading-score"></span>
+  </div>
+</div>
+
+<!-- ==================== PAGE: WRITING ==================== -->
+<div id="page-writing" class="page">
+  <div class="breadcrumb">
+    <button class="btn-back" onclick="navigate('sections')">← Back</button>
+    <a href="#" onclick="navigate('sections');return false;">Sections</a>
+    <span>/</span>
+    <span class="current">General Training Writing</span>
+  </div>
+  <div id="writing-task-container"></div>
+</div>
+
+<!-- ==================== PAGE: LISTENING ==================== -->
+<div id="page-listening" class="page">
+  <div class="breadcrumb">
+    <button class="btn-back" onclick="navigate('sections')">← Back</button>
+    <a href="#" onclick="navigate('sections');return false;">Sections</a>
+    <span>/</span>
+    <span class="current">Listening</span>
+  </div>
+  <div id="listening-task-container"></div>
+</div>
+
+<footer>
+  Practice material adapted from official IELTS General Training sample tasks.
+</footer>
+
+<script>
+/* ==================================================
+   NAVIGATION
+   ================================================== */
+const PAGES = {
+  landing:  document.getElementById('page-landing'),
+  sections: document.getElementById('page-sections'),
+  reading:  document.getElementById('page-reading'),
+  writing:  document.getElementById('page-writing'),
+  listening: document.getElementById('page-listening')
+};
+let currentSubSection = null;
+
+function navigate(to, sub){
+  Object.values(PAGES).forEach(p => p.classList.remove('active'));
+  if(to === 'landing'){ PAGES['landing'].classList.add('active'); return; }
+  if(to === 'sections'){ PAGES['sections'].classList.add('active'); return; }
+  PAGES[to].classList.add('active');
+  currentSubSection = sub || null;
+  if(to === 'reading')  renderReadingSub();
+  if(to === 'writing')  renderWritingSub();
+  if(to === 'listening') renderListeningSub();
+  window.scrollTo(0,0);
+}
+
+/* ==================================================
+   READING DATA (8 tasks from PDF)
+   ================================================== */
+const READING_TASKS = [
+  {
+    id:'flow-chart',
+    label:'Flow-chart Completion',
+    title:'The Production Process',
+    subject:'ROBOTS AT WORK',
+    instructions:'Complete the flow-chart below. Choose NO MORE THAN THREE WORDS from the text for each answer.',
+    passage:[
+      `<span class="section-label">A</span> The newspaper production process has come a long way from the old days when the paper was written, edited, typeset and ultimately printed in one building with the journalists working on the upper floors and the printing presses going on the ground floor. These days the editor, subeditors and journalists who put the paper together are likely to find themselves in a totally different building or maybe even in a different city. This is the situation which now prevails in Sydney. The daily paper is compiled at the editorial headquarters, known as the prepress centre, in the heart of the city, but printed far away in the suburbs at the printing centre. Here human beings are in the minority as much of the work is done by automated machines controlled by computers.`,
+      `<span class="section-label">B</span> Once the finished newspaper has been created for the next morning's edition, all the pages are transmitted electronically from the prepress centre to the printing centre. The system of transmission is an update on the sophisticated page facsimile system already in use on many other newspapers. An imagesetter at the printing centre delivers the pages as film. Each page takes less than a minute to produce, although for colour pages four versions, once each for black, cyan, magenta and yellow are sent. The pages are then processed into photographic negatives and the film is used to produce aluminium printing plates ready for the presses.`,
+      `<span class="section-label">C</span> A procession of automated vehicles is busy at the new printing centre where the Sydney Morning Herald is printed each day. With lights flashing and warning horns honking, the robots (to give them their correct name, the LGVs or laser guided vehicles) look for all the world like enthusiastic machines from a science fiction movie, as they follow their own random paths around the plant busily getting on with their jobs. Automation of this kind is now standard in all modern newspaper plants. The robots can detect unauthorised personnel and alert security staff immediately if they find an "intruder"; not surprisingly, tall tales are already being told about the machines starting to take on personalities of their own.`,
+      `<span class="section-label">D</span> The robots' principal job, however, is to shift the newsprint (the printing paper) that arrives at the plant in huge reels and emerges at the other end some time later as newspapers. Once the size of the day's paper and the publishing order are determined at head office, the information is punched into the computer and the LGVs are programmed to go about their work. The LGVs collect the appropriate size paper reels and take them where they have to go. When the press needs another reel its computer alerts the LGV system. The Sydney LGVs move busily around the press room fulfilling their two key functions: to collect reels of newsprint either from the reel stripping stations, or from the racked supplies in the newsprint storage area. At the stripping station the tough wrapping that helps to protect a reel of paper from rough handling is removed. Any damaged paper is peeled off and the reel is then weighed.`,
+      `<span class="section-label">E</span> Then one of the four paster robots moves in. Specifically designed for the job, it trims the paper neatly and prepares the reel for the press. If required the reel can be loaded directly onto the press; if not needed immediately, an LGV takes it to the storage area. When the press computer calls for a reel, an LGV takes it to the reel loading area of the presses. It lifts the reel into the loading position and places it in the correct spot with complete accuracy. As each reel is used up, the press drops the heavy cardboard core into a waste bin. When the bin is full, another LGV collects it and deposits the cores into a shredder for recycling.`,
+      `<span class="section-label">F</span> The LGVs move at walking speed. Should anyone step in front of one or get too close, sensors stop the vehicle until the path is clear. The company has chosen a laserguide function system for the vehicles because, as the project development manager says, "The beauty of it is that if you want to change the routes, you can work out a new route on your computer and lay it down for them to follow". When an LGV's batteries run low, it will take itself off line and go to the nearest battery maintenance point for replacement batteries. And all this is achieved with absolute minimum human input and a much reduced risk of injury to people working in the printing centres.`,
+      `<span class="section-label">G</span> The question newspaper workers must now ask, however, is, "how long will it be before the robots are writing the newspapers as well as running the printing centre, churning out the latest edition every morning?"`
+    ],
+    questions:[
+      {num:33, prompt:'The final version of the text is ……………… to the printing centre.', type:'text', answers:['transmitted'], explanation:'Paragraph B: "all the pages are transmitted electronically from the prepress centre to the printing centre."'},
+      {num:34, prompt:'The pages are converted into ………………', type:'text', answers:['film','negative','photographic film','photographic negative','film / negative'], explanation:'Paragraph B: "delivers the pages as film" → "processed into photographic negatives". Both accepted.'},
+      {num:35, prompt:'……………… are made for use in the printing presses.', type:'text', answers:['aluminium printing plates','printing plates','aluminium plates'], explanation:'Paragraph B ends with "produce aluminium printing plates ready for the presses."'},
+      {num:36, prompt:'The LGVs are ……………… by computer.', type:'text', answers:['programmed'], explanation:'Paragraph D: "the information is punched into the computer and the LGVs are programmed to go about their work."'},
+      {num:37, prompt:'The LGVs remove the ……………… from the reel.', type:'text', answers:['damaged paper','wrapping','damaged paper / wrapping'], explanation:'Paragraph D: "the tough wrapping... is removed. Any damaged paper is peeled off." Both accepted.'},
+      {num:38, prompt:'The reel is ………………', type:'text', answers:['weighed'], explanation:'Paragraph D: "the reel is then weighed."'},
+      {num:39, prompt:'The reel is trimmed and prepared by the ………………', type:'text', answers:['paster robot','paster robots'], explanation:'Paragraph E: "Then one of the four paster robots moves in... it trims the paper neatly and prepares the reel".'},
+      {num:40, prompt:'The reel is taken to the ………………', type:'text', answers:['storage area'], explanation:'Paragraph E: "if not needed immediately, an LGV takes it to the storage area."'}
+    ]
+  },
+  {
+    id:'identifying-information',
+    label:'Identifying Information',
+    title:'London to Brighton Bike Ride',
+    subject:'Event rules & safety information',
+    instructions:'Do the following statements agree with the information given in the text? Write TRUE if the statement agrees, FALSE if it contradicts, or NOT GIVEN if there is no information.',
+    passage:[
+      `<span class="section-label">The start</span> The bike ride starts at Clapham Common tube station. Your Start Time is indicated by the colour of your body number. Please arrive no earlier than 30 minutes before that time. We allocate an equal number of cyclists for each Start Time to ensure a steady flow. Please keep to the time you've been given so we can keep to our schedule and avoid delaying other riders and prevent 'bunching' further down the route.`,
+      `<span class="section-label">Ride carefully</span> We put together as many facilities as possible to help ensure you have a troublefree day. But we also rely on you to ride safely and with due consideration for other cyclists and road users. Although many roads are closed to oncoming traffic, this is not always the case and you should be aware of the possibility that there could be vehicles coming in the opposite direction. Please do not attempt reckless overtaking whilst riding — remember it is NOT a race.`,
+      `<span class="section-label">Follow all instructions</span> Every effort is made to ensure that the route is well signed and marshalled. Please obey all directions from police and marshals on the route. If you hear a motorcycle marshal blow his/her whistle three times, move left.`,
+      `<span class="section-label">Wear a helmet</span> Every year we are delighted to see more riders wearing protective helmets, but we would like to see every cyclist on the ride wearing one. More than half of reported injuries in cycling accidents are to the head, and a helmet gives the best protection when the head hits the ground.`,
+      `<span class="section-label">Attracting assistance</span> If you have an accident, ask a marshal for help; they are in contact with the support/emergency services. To call for help from our motorcycle marshals, give a 'thumbs down' signal. The marshal will do all he/she can to help, providing he/she is not already going to a more serious accident. If a motorcycle marshal slows down to help you, but you have just stopped for a rest and don't need help, please give a 'thumbs up' signal and he/she will carry on. Remember — thumbs down means 'I need help'.`,
+      `<span class="section-label">In case of breakdown</span> Refer to your route map and make your way to a Mechanics Point. Mechanical assistance is free when you show your Rider Identity Card; you just pay for the parts.`,
+      `<span class="section-label">Refreshment stops</span> Look out for these along the route. Most are organised by voluntary clubs and their prices give you real value for money. They are also raising money for their local communities and the British Heart Foundation.`,
+      `<span class="section-label">Rain or shine — be prepared</span> In the event of very bad weather, watch out for signs to wet weather stations en route. Good waterproofs, like a cycle cape, are essential. Our first aid staff can only supply bin liners. However, the English summer is unpredictable — it may also be hot, so don't forget the sun protection cream as well!`,
+      `<span class="section-label">If you have to drop out</span> We will try to pick up your bike for you on the day. Call Bike Events no more than two weeks after the ride to arrange collection. Sorry, we cannot guarantee this service nor can we accept liability for any loss or damage to your bike. Bike Events will hold your bike for three months, after which it may be disposed of. You will be charged for all costs incurred in returning your cycle.`
+    ],
+    questions:[
+      {num:1, prompt:'You should not arrive more than half an hour before your allocated starting time.', type:'select-tgn', answer:'TRUE', explanation:'"Please arrive no earlier than 30 minutes before that time." — half an hour = 30 minutes. Statement agrees.'},
+      {num:2, prompt:'Your Rider Identity Card will be sent to you before the event.', type:'select-tgn', answer:'NOT GIVEN', explanation:'The text mentions the Rider Identity Card but never says when or how you receive it.'},
+      {num:3, prompt:'Some roads may have normal traffic flow on them.', type:'select-tgn', answer:'TRUE', explanation:'"Although many roads are closed to oncoming traffic, this is not always the case" — some roads still have traffic.'},
+      {num:4, prompt:'Helmets are compulsory for all participants.', type:'select-tgn', answer:'FALSE', explanation:'The text says they "would like to see every cyclist... wearing one" — a desire, not a rule. Contradicts.'},
+      {num:5, prompt:'Refreshments are free to all participants during the ride.', type:'select-tgn', answer:'FALSE', explanation:'Stands have prices and "give you real value for money" — not free. Contradicts.'},
+      {num:6, prompt:'If you need a rest you must get off the road.', type:'select-tgn', answer:'NOT GIVEN', explanation:'The text mentions stopping for a rest but does not say where you must do it.'},
+      {num:7, prompt:'First aid staff can provide cycle capes.', type:'select-tgn', answer:'FALSE', explanation:'"Our first aid staff can only supply bin liners" — explicitly NOT cycle capes. Contradicts.'},
+      {num:8, prompt:'Bike Events will charge you for the return of your bike.', type:'select-tgn', answer:'TRUE', explanation:'"You will be charged for all costs incurred in returning your cycle."'}
+    ]
+  },
+  {
+    id:'matching-information',
+    label:'Matching Information',
+    title:'Language School Advertisements',
+    subject:'Five language school advertisements (A–E)',
+    instructions:'Look at the five advertisements A–E. Which advertisement mentions the following? Write the correct letter A–E. You may use any letter more than once.',
+    showAds:true,
+    questions:[
+      {num:1, prompt:'up-to-date teaching systems', type:'select-letter', letters:['A','B','C','D','E'], answer:'B', explanation:'Ad B (Global Language Learning Centre) mentions "LATEST METHODS" — up-to-date teaching systems.'},
+      {num:2, prompt:'that the institution has been established for a significant time', type:'select-letter', letters:['A','B','C','D','E'], answer:'E', explanation:'Ad E (University of Canberra) states "The TESOL Centre has more than 24 years\' experience" — established for a significant time.'},
+      {num:3, prompt:'examination classes', type:'select-letter', letters:['A','B','C','D','E'], answer:'E', explanation:'Ad E mentions "Test preparation" — examination classes.'},
+      {num:4, prompt:'that arrangements can be made for activities outside class', type:'select-letter', letters:['A','B','C','D','E'], answer:'C', explanation:'Ad C (Perth TAFE) lists "Study Tours Available — English/cultural/tourism" — activities outside class.'},
+      {num:5, prompt:'the availability of courses for school students', type:'select-letter', letters:['A','B','C','D','E'], answer:'D', explanation:'Ad D (Club Français) offers "High School Crash Course... Years 8 to 12" — courses for school students.'},
+      {num:6, prompt:'language teaching for special purposes', type:'select-letter', letters:['A','B','C','D','E'], answer:'B', explanation:'Ad B (Global Language Learning Centre) lists "BUSINESS, HOSPITALITY OR TRAVEL" — special-purpose language teaching.'},
+      {num:7, prompt:'a wide variety of language choices', type:'select-letter', letters:['A','B','C','D','E'], answer:'A', explanation:'Ad A (International Language Centre) lists 11 languages — the widest variety.'},
+      {num:8, prompt:'evening classes', type:'select-letter', letters:['A','B','C','D','E'], answer:'C', explanation:'Ad C (Perth TAFE) mentions courses "morning or evening" — includes evening classes.'}
+    ],
+    ads:[
+      {code:'A', name:'International Language Centre', text:'Mandarin, Cantonese, Thai, Vietnamese, Korean, Indonesian, English, Spanish, Italian, German, Russian. FULL AND PART-TIME COURSES. 5 Bligh Street, Sth. Sydney, 2000. Tel: 295 4561.'},
+      {code:'B', name:'Global Language Learning Centre', text:'LATEST METHODS. Business, Hospitality or Travel. FULL AND PART-TIME COURSES. 5 Bligh Street, Sth. Sydney, 2000. Tel: 295 4561, Fax: 235 4714.'},
+      {code:'C', name:'Perth TAFE International', text:'Perth, Western Australia. Mediterranean climate, lovely Indian Ocean beaches. Government owned TAFE Colleges. Intensive English Courses: 5 intakes per year, 10 week modules. Study Tours Available. Contact: TAFE International, Level 5, 1 Mill Street, Perth 6000. Tel: 619 320 3777.'},
+      {code:'D', name:'Club Français', text:'SUMMER COURSES January 2005. Adults Crash Course 9-19 Jan (Intensive 3-4 hrs/day, $250). Adults Normal Course 9 Jan-4 March (10 levels, 2 hrs morning or evening, $278). High School Crash Course 11-25 Jan (Intensive 3 hrs/day, Years 8-12, $200). French. 27 Claire St, Sydney. Phone: 227 1746.'},
+      {code:'E', name:'University of Canberra — TESOL Centre', text:'Learn English in Australia\'s National Capital. The TESOL Centre has more than 24 years\' experience in providing quality language programs for overseas students. Test preparation, possibility of further academic study. Access to University facilities. Classes conducted on campus.'}
+    ]
+  },
+  {
+    id:'matching-features',
+    label:'Matching Features',
+    title:'History of Cinema',
+    subject:'National cinemas in the silent period',
+    instructions:'Look at the following statements (Questions 34-40) and the list of countries below. Match each statement with the correct country A–J. You may use any letter more than once.',
+    showCountries:true,
+    questions:[
+      {num:34, prompt:'It helped other countries develop their own film industry.', type:'select-letter', letters:['A','B','C','D','E','F','G','H','I','J'], answer:'A', explanation:'Paragraph 1: "the French... helping to start cinema in China, Japan, Latin America and Russia." France helped other countries.'},
+      {num:35, prompt:'It was the biggest producer of films.', type:'select-letter', letters:['A','B','C','D','E','F','G','H','I','J'], answer:'C', explanation:'Paragraph 2: "the United States... dominant position on the world market." USA was the biggest.'},
+      {num:36, prompt:'It was first to develop the \'feature\' film.', type:'select-letter', letters:['A','B','C','D','E','F','G','H','I','J'], answer:'H', explanation:'Paragraph 2: "The Italian industry, which had pioneered the feature film with spectacular films like \'Quo Vadis?\' (1913) and \'Cabiria\' (1914)." Italy pioneered the feature film.'},
+      {num:37, prompt:'It was responsible for creating stars.', type:'select-letter', letters:['A','B','C','D','E','F','G','H','I','J'], answer:'C', explanation:'Paragraph 3: "the star system added a new dimension to screen acting" — discussing Hollywood\'s star system. USA created the star system.'},
+      {num:38, prompt:'It made the most money from \'avant-garde\' films.', type:'select-letter', letters:['A','B','C','D','E','F','G','H','I','J'], answer:'A', explanation:'Paragraph 4: "the avant-garde film first achieved commercial success, this time thanks almost exclusively to the French." France was the main force behind avant-garde commercial success.'},
+      {num:39, prompt:'It made movies based more on its own culture than outside influences.', type:'select-letter', letters:['A','B','C','D','E','F','G','H','I','J'], answer:'F', explanation:'Paragraph 6: "Japan, where a cinema developed based primarily on traditional theatrical and, to a lesser extent, other art forms and only gradually adapted to western influence." Japan based cinema on its own culture.'},
+      {num:40, prompt:'It had a great influence on silent movies, despite its size.', type:'select-letter', letters:['A','B','C','D','E','F','G','H','I','J'], answer:'D', explanation:'Paragraph 6: "the Scandinavian countries, particularly Denmark, which played a role in the development of silent cinema quite out of proportion to their small population." Denmark had influence disproportionate to size.'}
+    ],
+    countries:[
+      {code:'A', name:'France'},
+      {code:'B', name:'Germany'},
+      {code:'C', name:'USA'},
+      {code:'D', name:'Denmark'},
+      {code:'E', name:'Sweden'},
+      {code:'F', name:'Japan'},
+      {code:'G', name:'Russia'},
+      {code:'H', name:'Italy'},
+      {code:'I', name:'Britain'},
+      {code:'J', name:'China'}
+    ]
+  },
+  {
+    id:'matching-headings',
+    label:'Matching Headings',
+    title:'Robots at Work',
+    subject:'Newspaper production with LGVs',
+    instructions:'The text has seven paragraphs A–G. Choose the correct heading for paragraphs A, B and D–G from the list below. Write the correct number i–ix. Paragraph C is given as an example (ix).',
+    showHeadings:true,
+    example:{letter:'C', num:null, answer:'ix'},
+    questions:[
+      {num:27, prompt:'Paragraph A', type:'select-letter', letters:['i','ii','iii','iv','v','vi','vii','viii','ix'], answer:'v', explanation:'Paragraph A describes how newspaper production is now split between the prepress centre in the city and the printing centre in the suburbs — "Split location for newspaper production" (v).'},
+      {num:28, prompt:'Paragraph B', type:'select-letter', letters:['i','ii','iii','iv','v','vi','vii','viii','ix'], answer:'vii', explanation:'Paragraph B describes electronic transmission of pages from the prepress centre to the printing centre — "Getting the newspaper to the printing centre" (vii).'},
+      {num:29, prompt:'Paragraph D', type:'select-letter', letters:['i','ii','iii','iv','v','vi','vii','viii','ix'], answer:'iv', explanation:'Paragraph D focuses on the principal job of the LGVs: collecting and moving newsprint reels — "The LGVs\' main functions" (iv).'},
+      {num:30, prompt:'Paragraph E', type:'select-letter', letters:['i','ii','iii','iv','v','vi','vii','viii','ix'], answer:'i', explanation:'Paragraph E describes the paster robots and how LGVs work together in the process — "Robots working together" (i).'},
+      {num:31, prompt:'Paragraph F', type:'select-letter', letters:['i','ii','iii','iv','v','vi','vii','viii','ix'], answer:'viii', explanation:'Paragraph F describes how the LGVs are controlled: sensors, laserguide routing, battery management — "Controlling the robots" (viii).'},
+      {num:32, prompt:'Paragraph G', type:'select-letter', letters:['i','ii','iii','iv','v','vi','vii','viii','ix'], answer:'iii', explanation:'Paragraph G ends with a forward-looking question about robots writing newspapers — "Looking ahead" (iii).'}
+    ],
+    headings:[
+      {code:'i', text:'Robots working together'},
+      {code:'ii', text:'Preparing LGVs for takeover'},
+      {code:'iii', text:'Looking ahead'},
+      {code:'iv', text:'The LGVs\' main functions'},
+      {code:'v', text:'Split location for newspaper production'},
+      {code:'vi', text:'Newspapers superseded by technology'},
+      {code:'vii', text:'Getting the newspaper to the printing centre'},
+      {code:'viii', text:'Controlling the robots'},
+      {code:'ix', text:'Beware of robots!'}
+    ]
+  },
+  {
+    id:'multiple-choice',
+    label:'Multiple Choice',
+    title:'The Coal Industry and the Environment',
+    subject:'Coal mining, greenhouse gases, and environmental impact',
+    instructions:'Choose the correct letter A, B, C or D for Questions 1–5. For Question 6, choose the most suitable title for the text.',
+    passage:[
+      `Greenhouse gases arise from a wide range of sources and their increasing concentration is largely related to the compound effects of increased population, improved living standards and changes in lifestyle. From a current base of 5 billion, the United Nations predicts that the global population may stabilise in the twenty-first century between 8 and 14 billion, with more than 90 per cent of the projected increase taking place in the world's developing nations. The associated activities to support that growth, particularly to produce the required energy and food, will cause further increases in greenhouse gas emissions. The challenge, therefore, is to attain a sustainable balance between population, economic growth and the environment.`,
+      `The major greenhouse gas emissions from human activities are carbon dioxide (CO2), methane and nitrous oxide. Chlorofluorocarbons (CFCs) are the only major contributor to the greenhouse effect that does not occur naturally, coming from such sources as refrigeration, plastics and manufacture. Coal's total contribution to greenhouse gas emissions is thought to be about 18 per cent, with about half of this coming from electricity generation.`,
+      `The worldwide coal industry allocates extensive resources to researching and developing new technologies and ways of capturing greenhouse gases. Efficiencies are likely to be improved dramatically, and hence CO2 emissions reduced, through combustion and gasification techniques which are now at pilot and demonstration stages.`,
+      `Clean coal is another avenue for improving fuel conversion efficiency. Investigations are under way into super-clean coal (35 per cent ash) and ultraclean coal (less than 1 per cent ash). Super-clean coal has the potential to enhance the combustion efficiency of conventional pulverised fuel power plants. Ultraclean coal will enable coal to be used in advanced power systems such as coal-fired gas turbines which, when operated in combined cycle, have the potential to achieve much greater efficiencies.`,
+      `Defendants of mining point out that, environmentally, coal mining has two important factors in its favour. It makes only temporary use of the land and produces no toxic chemical wastes. By carefully preplanning projects, implementing pollution control measures, monitoring the effects of mining and rehabilitating mined areas, the coal industry minimises the impact on the neighbouring community, the immediate environment and long-term land capability. Dust levels are controlled by spraying roads and stockpiles, and water pollution is controlled by carefully separating clean water runoff from runoff which contains sediments or salt from mine workings.`,
+      `Since mining activities represent only a temporary use of the land, extensive rehabilitation measures are adopted to ensure that land capability after mining meets agreed and appropriate standards which, in some cases, are superior to the land's pre-mining condition. Where the mining is underground, the surface area can be simultaneously used for forests, cattle grazing and crop raising, or even reservoirs and urban development, with little or no disruption to the existing land use.`
+    ],
+    questions:[
+      {num:1, prompt:'The global increase in greenhouse gases has been attributed to', type:'radio', options:[['A','industrial pollution in developing countries.'],['B','coal mining and electricity generation.'],['C','reduced rainfall in many parts of the world.'],['D','trends in population and lifestyle.']], answer:'D', explanation:'Paragraph 1: "increasing concentration is largely related to the compound effects of increased population, improved living standards and changes in lifestyle."'},
+      {num:2, prompt:'The proportion of all greenhouse gases created by coal is approximately', type:'radio', options:[['A','14 per cent.'],['B','18 per cent.'],['C','27 per cent.'],['D','90 per cent.']], answer:'B', explanation:'Paragraph 2: "Coal\'s total contribution to greenhouse gas emissions is thought to be about 18 per cent."'},
+      {num:3, prompt:'Current research aims to increase the energy-producing efficiency of coal by', type:'radio', options:[['A','burning it at a lower temperature.'],['B','developing new gasification techniques.'],['C','extracting CO2 from it.'],['D','recycling greenhouse gases.']], answer:'B', explanation:'Paragraph 3: "Efficiencies are likely to be improved dramatically... through combustion and gasification techniques which are now at pilot and demonstration stages."'},
+      {num:4, prompt:'Compared with ordinary coal, new, \'clean\' coals may generate power', type:'radio', options:[['A','more cleanly and more efficiently.'],['B','more cleanly but less efficiently.'],['C','more cleanly but at higher cost.'],['D','more cleanly but much more slowly.']], answer:'A', explanation:'Paragraph 4: super-clean coal "has the potential to enhance the combustion efficiency" and ultraclean enables "much greater efficiencies." Cleaner AND more efficient.'},
+      {num:5, prompt:'To control dust at mine sites, mining companies often use', type:'radio', options:[['A','chemicals which may be toxic.'],['B','topsoil taken from the site before mining.'],['C','fresh water from nearby dams.'],['D','runoff water containing sediments.']], answer:'D', explanation:'Paragraph 5: "water pollution is controlled by carefully separating clean water runoff from runoff which contains sediments... The latter is treated and reused for dust suppression."'},
+      {num:6, prompt:'Which is the most suitable title for the text?', type:'radio', options:[['A','Pollution control in coal mining.'],['B','The greenhouse effect.'],['C','The coal industry and the environment.'],['D','Sustainable population growth.']], answer:'C', explanation:'The text covers both the environmental impact of coal (greenhouse gases) AND the industry\'s environmental management (clean coal, dust/water/noise control, land rehabilitation). "The coal industry and the environment" is the most comprehensive title.'}
+    ]
+  },
+  {
+    id:'sentence-completion',
+    label:'Sentence Completion',
+    title:'Bee Behaviour — Von Frisch\'s Discoveries',
+    subject:'Karl von Frisch\'s experiments on bee communication',
+    instructions:'Complete the sentences below. Choose NO MORE THAN TWO WORDS from the text for each answer.',
+    passage:[
+      `At first, von Frisch thought the bees were responding only to the scent of the food. But what did the third dance mean? And if bees were responding only to the scent, how could they also 'sniff down' food hundreds of metres away from the hive, food which was sometimes downwind? On a hunch, he started gradually moving the feeding dish further and further away and noticed as he did so that the dances of the returning scout bees also started changing. If he placed the feeding dish over nine metres away, the second type of dance, the sickle version, came into play. But once he moved it past 36 metres, the scouts would then start dancing the third, quite different, waggle dance.`,
+      `The measurement of the actual distance too, he concluded, was precise. For example, a feeding dish 300 metres away was indicated by 15 complete runs through the pattern in 30 seconds. When the dish was moved to 60 metres away, the number dropped to eleven.`,
+      `Von Frisch noted something further. When the scout bees came home to tell their sisters about the food source, sometimes they would dance outside on the horizontal entrance platform of the hive, and sometimes on the vertical wall inside. And, depending on where they danced, the straight portion of the waggle dance would point in different directions. The outside dance was fairly easy to decode: the straight portion of the dance pointed directly to the food source, so the bees would merely have to decode the distance message and fly off in that direction to find their food.`,
+      `But by studying the dance on the inner wall of the hive, von Frisch discovered a remarkable method which the dancer used to tell her sisters the direction of the food in relation to the sun. When inside the hive, the dancer cannot use the sun, so she uses gravity instead. The direction of the sun is represented by the top of the hive wall. If she runs straight up, this means that the feeding place is in the same direction as the sun. However, if, for example, the feeding place is 40° to the left of the sun, then the dancer would run 40° to the left of the vertical line. This was to be the first of von Frisch's remarkable discoveries. Soon he would also discover a number of other remarkable facts about how bees communicate and, in doing so, revolutionise the study of animal behaviour generally.`
+    ],
+    questions:[
+      {num:38, prompt:'Von Frisch discovered the difference between dance types by changing the position of the …………………………', type:'text', answers:['feeding dish'], explanation:'Paragraph 1: "he started gradually moving the feeding dish further and further away and noticed... the dances of the returning scout bees also started changing."'},
+      {num:39, prompt:'The dance outside the hive points in the direction of the …………………………', type:'text', answers:['food','food source'], explanation:'Paragraph 3: "the straight portion of the dance pointed directly to the food source."'},
+      {num:40, prompt:'The angle of the dance from the vertical shows the angle of the food from the …………………………', type:'text', answers:['sun'], explanation:'Paragraph 4: "von Frisch discovered a remarkable method which the dancer used to tell her sisters the direction of the food in relation to the sun" — and the angle from vertical corresponds to the angle from the sun.'}
+    ]
+  },
+  {
+    id:'short-answer',
+    label:'Short-answer Questions',
+    title:'Fancy Foods Product Return',
+    subject:'Product recall notice and reward offer',
+    instructions:'Answer the questions below. Choose NO MORE THAN THREE WORDS AND/OR A NUMBER from the text for each answer.',
+    passage:[
+      `IMPORTANT NOTICE: PRODUCT RETURN — Fancy Foods wishes to inform the public that pieces of metal have been found in some jars of Fancy Foods Chicken Curry (Spicy). The batches of the jars involved have numbers from J6617 to J6624. The batch number is printed on the bottom of each jar. If you have any jars with these batch numbers, please return them (preferably unopened) to the supermarket where you purchased them. You can also return them to the factory (Fancy Foods Retailers, Blacktown). Fancy Foods will pay $10 for each jar returned unopened and $5 for each jar already opened. No payment will be made for empty jars, which do not need to be returned. However, the Retailing Manager will be interested to hear from people who have consumed chicken curry from any of the above batch numbers. In particular, it will be helpful if they can give information about the place of purchase of the product. Jars of Fancy Foods Chicken Curry (Coconut) and Fancy Foods Chicken Curry (Mango) have not been affected and do not need to be returned.`,
+      `REWARD — Fancy Foods will pay a reward of $10,000 to $50,000 for information which leads to the conviction of any person found guilty of placing metal pieces in its products. If you have such information, please contact the Customer Relations Manager, Fancy Foods Retailers, Blacktown.`
+    ],
+    questions:[
+      {num:4, prompt:'What has been found in some Fancy Foods products?', type:'text', answers:['pieces of metal'], explanation:'Paragraph 1: "pieces of metal have been found in some jars of Fancy Foods Chicken Curry (Spicy)."'},
+      {num:5, prompt:'Where can you find the batch number on the jars?', type:'text', answers:['on the bottom','bottom'], explanation:'Paragraph 1: "The batch number is printed on the bottom of each jar."'},
+      {num:6, prompt:'How much will you receive for an opened jar of contaminated Chicken Curry?', type:'text', answers:['$5','5 dollars','five dollars'], explanation:'Paragraph 1: "Fancy Foods will pay... $5 for each jar already opened."'},
+      {num:7, prompt:'If you have eaten Chicken Curry from a jar with one of the batch numbers listed, whom should you contact?', type:'text', answers:['Retailing Manager','the Retailing Manager'], explanation:'Paragraph 1: "the Retailing Manager will be interested to hear from people who have consumed chicken curry from any of the above batch numbers."'},
+      {num:8, prompt:'What is the maximum reward Fancy Foods is offering for information about who contaminated their product?', type:'text', answers:['$50,000','50,000','50000'], explanation:'Paragraph 2 (REWARD): "a reward of $10,000 to $50,000" — maximum is $50,000.'}
+    ]
+  }
+];
+
+/* ==================================================
+   READING RENDER
+   ================================================== */
+function norm(s){ return (s||'').toString().trim().toLowerCase().replace(/[.,;:!?\\/]/g,'').replace(/—/g,' ').replace(/-/g,' ').replace(/\\s+/g,' '); }
+function renderReadingSub(){
+  const container = document.getElementById('reading-task-container');
+  const task = currentSubSection ? READING_TASKS.find(t=>t.id===currentSubSection) : READING_TASKS[0];
+  let html = `
+    <div class="page-header">
+      <h1>${task.title}</h1>
+      <div class="accent">${task.subject}</div>
+      <p>${task.instructions}</p>
+    </div>
+    <div class="reading-layout">
+      <div class="passage-panel">
+        <h2>Passage</h2>`;
+  if(task.showAds){
+    html += `<div class="ad-grid">`;
+    task.ads.forEach(a=>{ html += `<div class="ad"><span class="code">${a.code}</span><strong>${a.name}</strong>${a.text}</div>`; });
+    html += `</div>`;
+  }
+  if(task.showCountries){
+    html += `<div class="countries-grid">`;
+    task.countries.forEach(c=>{ html += `<div class="country-card"><span class="code">${c.code}</span><span class="name">${c.name}</span></div>`; });
+    html += `</div>`;
+  }
+  if(task.showHeadings){
+    html += `<div class="headings-grid">`;
+    task.headings.forEach(h=>{ html += `<span><span class="heading-letter">${h.code}</span> ${h.text}</span>`; });
+    html += `</div>`;
+  }
+  task.passage.forEach(p=>{ html += `<p>${p}</p>`; });
+  html += `</div>`;
+  html += `<div class="questions-panel"><h2>Questions</h2><div class="instructions">${task.instructions}</div>`;
+  task.questions.forEach(q=>{ html += renderQRow(q); });
+  html += `</div></div>`;
+  container.innerHTML = html;
+  document.getElementById('btn-check-reading').onclick = ()=>checkReading(task.id);
+  document.getElementById('reading-score').classList.remove('show');
+}
+
+function renderQRow(q){
+  let inner = '';
+  if(q.type==='text'){
+    inner = `<input type="text" id="q-${q.num}" placeholder="Your answer" />`;
+  } else if(q.type==='select-letter'){
+    inner = `<select id="q-${q.num}"><option value="">— select —</option>`;
+    q.letters.forEach(l=>{ inner += `<option value="${l}">${l}</option>`; });
+    inner += `</select>`;
+  } else if(q.type==='select-tgn'){
+    inner = `<select id="q-${q.num}"><option value="">— select —</option><option value="TRUE">TRUE</option><option value="FALSE">FALSE</option><option value="NOT GIVEN">NOT GIVEN</option></select>`;
+  } else if(q.type==='radio'){
+    inner = `<div class="radio-group">`;
+    q.options.forEach(o=>{
+      inner += `<label class="radio-opt"><input type="radio" name="q-${q.num}" value="${o[0]}"><span><strong>${o[0]}.</strong> ${o[1]}</span></label>`;
+    });
+    inner += `</div>`;
+  }
+  return `
+    <div class="q-row" id="row-${q.num}">
+      <div class="q-prompt"><span class="q-num">${q.num}</span>${q.prompt}</div>
+      ${inner}
+      <div class="explanation" id="exp-${q.num}"></div>
+    </div>`;
+}
+
+function checkReading(taskId){
+  const task = READING_TASKS.find(t=>t.id===taskId);
+  const questions = task.questions;
+  let correctCount = 0;
+  questions.forEach(q=>{
+    const row = document.getElementById('row-'+q.num);
+    const exp = document.getElementById('exp-'+q.num);
+    let userVal = '';
+    let ok = false;
+    if(q.type==='radio'){
+      const checked = document.querySelector(`input[name="q-${q.num}"]:checked`);
+      userVal = checked ? checked.value : '';
+      ok = userVal === q.answer;
+    } else {
+      const field = document.getElementById('q-'+q.num);
+      userVal = field ? field.value : '';
+      if(q.type==='text'){
+        ok = q.answers.some(a => norm(a) === norm(userVal));
+      } else {
+        ok = userVal === q.answer;
+      }
+    }
+    row.classList.remove('correct','incorrect');
+    row.classList.add('checked', ok ? 'correct' : 'incorrect');
+    if(ok) correctCount++;
+    const existingTag = row.querySelector('.result-tag');
+    if(existingTag) existingTag.remove();
+    const tag = document.createElement('span');
+    tag.className = 'result-tag ' + (ok ? 'correct' : 'incorrect');
+    tag.textContent = ok ? 'Correct' : 'Incorrect';
+    row.querySelector('.q-prompt').appendChild(tag);
+    const correctAnswerText = q.answer || (q.answers ? q.answers[0] : '');
+    exp.innerHTML = (ok ? '' : `<strong>Correct answer:</strong> ${correctAnswerText}. `) + (q.explanation || '');
+  });
+  const pill = document.getElementById('reading-score');
+  pill.textContent = `${correctCount} / ${questions.length} correct`;
+  pill.classList.add('show');
+}
+
+/* ==================================================
+   WRITING DATA
+   ================================================== */
+const WRITING_TASKS = [
+  {
+    id:'task1',
+    label:'Task 1',
+    title:'General Training Writing — Task 1',
+    time:'about 20 minutes',
+    minWords:150,
+    prompt:'You live in a room in college which you share with another student. However, there are many problems with this arrangement and you find it very difficult to work.',
+    instruction:'Write a letter to the accommodation officer at the college. In your letter: • describe the situation • explain your problems and why it is difficult to work • say what kind of accommodation you would prefer. Write at least 150 words. You do NOT need to write any addresses. Begin your letter as follows: Dear Sir or Madam,',
+    criteria:[
+      {name:'Task Achievement', text:'How appropriately, accurately and relevantly you address all three bullet points (situation, problems, preferred accommodation) in a letter format with the required opening.'},
+      {name:'Coherence and Cohesion', text:'How clearly you organise your letter into logical paragraphs and link ideas using appropriate connectors and referencing.'},
+      {name:'Lexical Resource', text:'The range and accuracy of vocabulary used to describe problems, living situations, and requests in a formal/informal register appropriate to a college officer.'},
+      {name:'Grammatical Range and Accuracy', text:'The range of sentence structures and accuracy of grammar, including appropriate use of tenses, modals for requests, and complex sentences.'}
+    ],
+    samples:[
+      {label:'Sample A', band:'Band 5', comment:'Below the word limit with some repetition of the task rubric. Points not always linked together well and punctuation sometimes faulty. Sentences kept quite simple and mistakes occur when more complex structures are attempted. Introduction appropriate and purpose clear despite problems.'},
+      {label:'Sample B', band:'Band 7', comment:'Also short but incorporates original material beyond the rubric. Reads fluently, well organised with good use of conjunctions to link points. Some grammatical errors but these do not greatly affect the reader, and there is evidence of more complex sentence structures.'}
+    ]
+  },
+  {
+    id:'task2',
+    label:'Task 2',
+    title:'General Training Writing — Task 2',
+    time:'about 40 minutes',
+    minWords:250,
+    prompt:'In Britain, when someone gets old they often go to live in a home with other old people where there are nurses to look after them. Sometimes the government has to pay for this care. Who do you think should pay for this care, the government or the family?',
+    instruction:'Give reasons for your answer and include any relevant examples from your own knowledge or experience. Write at least 250 words.',
+    criteria:[
+      {name:'Task Response', text:'How fully you formulate a clear position on who should pay (government or family), develop it with relevant ideas, and support it with evidence and examples from your own experience.'},
+      {name:'Coherence and Cohesion', text:'How logically your essay is organised into introduction, body paragraphs, and conclusion, with ideas clearly linked using a range of cohesive devices.'},
+      {name:'Lexical Resource', text:'The range, precision and appropriacy of vocabulary used to discuss the topic of elderly care, responsibility, and funding.'},
+      {name:'Grammatical Range and Accuracy', text:'The range of grammatical structures used and the accuracy of your writing, including complex sentences, conditionals, and passive structures where appropriate.'}
+    ],
+    samples:[
+      {label:'Sample A', band:'Band 5', comment:'Quite a lot of relevant ideas but not always well supported and sometimes unclear. Organisation becomes weak in places and the reader finds the message difficult to follow. A lot of mistakes, and some parts — such as the conclusion — are very hard to follow because of these errors. Appropriate vocabulary is present but sentence control is very weak.'},
+      {label:'Sample B', band:'Band 8', comment:'Very well organised script containing a lot of well-supported arguments and analyses the topic from different angles. Ideas follow each other well and there is a very honest conclusion. Easy to read. Some areas where expression is clumsy but this makes little difference to the overall flow. Minor errors in spelling and structure.'}
+    ]
+  }
+];
+
+function renderWritingSub(){
+  const container = document.getElementById('writing-task-container');
+  const task = currentSubSection ? WRITING_TASKS.find(t=>t.id===currentSubSection) : WRITING_TASKS[0];
+
+  let criteriaHtml = `<div class="writing-criteria">`;
+  task.criteria.forEach(c=>{
+    criteriaHtml += `<div class="criteria-card"><h3>${c.name}</h3><p>${c.text}</p></div>`;
+  });
+  criteriaHtml += `</div>`;
+
+  let samplesHtml = '';
+  task.samples.forEach(s=>{
+    samplesHtml += `<div style="margin-top:10px;padding:12px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-sm);">
+      <span style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text);background:rgba(102,255,0,0.1);padding:2px 8px;border-radius:6px;display:inline-block;margin-bottom:6px;">${s.band}</span>
+      <div style="font-family:var(--font-ui);font-size:12px;color:var(--muted);line-height:1.6;text-transform:none;"><strong>${s.label}:</strong> ${s.comment}</div>
+    </div>`;
+  });
+
+  container.innerHTML = `
+    <div class="page-header">
+      <h1>${task.title}</h1>
+      <div class="accent">${task.label}</div>
+      <p>Write your response below, then check word count and paragraph structure.</p>
+    </div>
+    <div class="writing-prompt-card">
+      <div class="meta-row"><span>You should spend ${task.time} on this task.</span><span>Minimum ${task.minWords} words.</span></div>
       <div class="prompt-box">${task.prompt}</div>
       <p class="prompt-info">${task.instruction}</p>
     </div>
@@ -21,6 +1821,7 @@
       </details>
     </div>
   `;
+
   const essay = document.getElementById('essay-text');
   const wc = document.getElementById('wc-display');
   essay.addEventListener('input', ()=>{
@@ -30,19 +1831,23 @@
     wc.classList.toggle('low', words>0 && words<task.minWords);
   });
 }
+
 function countWords(text){
   const t = text.trim();
   if(!t) return 0;
   return t.split(/\\s+/).length;
 }
+
 function checkWriting(taskId){
   const task = WRITING_TASKS.find(t=>t.id===taskId);
   const essay = document.getElementById('essay-text').value;
   const words = countWords(essay);
   const paragraphs = essay.split(/\\n\\s*\\n/).filter(p=>p.trim().length>0).length;
+
   const wcOk = words >= task.minWords;
   const paraOk = paragraphs >= 3;
   const hasOpening = task.id==='task1' ? /dear sir or madam/i.test(essay) : true;
+
   document.getElementById('wc-check').innerHTML = `<span class="dot ${wcOk?'ok':'warn'}"></span> ${words} words written — ${wcOk ? `meets the ${task.minWords}-word minimum.` : `below the ${task.minWords}-word minimum required.`}`;
   document.getElementById('para-check').innerHTML = `<span class="dot ${paraOk?'ok':'warn'}"></span> ${paragraphs} paragraph${paragraphs===1?'':'s'} — ${paraOk ? 'clear paragraph structure.' : 'consider organising into distinct paragraphs.'}`;
   if(task.id==='task1'){
@@ -52,6 +1857,7 @@ function checkWriting(taskId){
   }
   document.getElementById('writing-feedback').classList.add('show');
 }
+
 /* ==================================================
    LISTENING DATA & LOGIC
    ================================================== */
@@ -210,6 +2016,7 @@ const LISTENING_TASKS = [
     ]
   }
 ];
+
 let listeningState = {
   taskId: null,
   audio: null,
@@ -219,6 +2026,7 @@ let listeningState = {
   pausedAt: 0,
   duration: 0
 };
+
 function renderListeningSub(){
   const container = document.getElementById('listening-task-container');
   const task = currentSubSection ? LISTENING_TASKS.find(t=>t.id===currentSubSection) : LISTENING_TASKS[0];
@@ -227,6 +2035,7 @@ function renderListeningSub(){
   listeningState.audioSrc = task.audioSrc;
   listeningState.isPlaying = false;
   listeningState.pausedAt = 0;
+
   let html = `
     <div class="page-header">
       <h1>${task.title}</h1>
@@ -266,13 +2075,17 @@ function renderListeningSub(){
       </div>
     </div>
   `;
+
   container.innerHTML = html;
+
   if(task.audioSrc){
     setupAudioPlayer(task);
   }
+
   document.getElementById('btn-check-listening').onclick = ()=>checkListening(task.id);
   document.getElementById('listening-score').classList.remove('show');
 }
+
 function renderListeningQ(q){
   let inner = '';
   if(q.type==='text'){
@@ -291,18 +2104,22 @@ function renderListeningQ(q){
       <div class="explanation" id="lq-exp-${q.num}"></div>
     </div>`;
 }
+
 function checkListening(taskId){
   const task = LISTENING_TASKS.find(t=>t.id===taskId);
   if(!task){ console.error('Task not found:', taskId); return; }
   const questions = task.questions;
   let correctCount = 0;
+
   questions.forEach(q=>{
     const row = document.getElementById('lqrow-'+q.num);
     const exp = document.getElementById('lq-exp-'+q.num);
     if(!row || !exp) return;
+
     let userVal = '';
     let ok = false;
     let inputEl = null;
+
     if(q.type==='radio'){
       const checked = document.querySelector('input[name="lq-'+q.num+'"]:checked');
       inputEl = checked;
@@ -316,9 +2133,11 @@ function checkListening(taskId){
         ok = q.answers.some(a => norm(a) === norm(userVal));
       }
     }
+
     row.classList.remove('correct','incorrect');
     const existingTag = row.querySelector('.result-tag');
     if(existingTag) existingTag.remove();
+
     if(userVal){
       if(ok){
         correctCount++;
@@ -340,12 +2159,14 @@ function checkListening(taskId){
       exp.innerHTML = (ok ? '' : '<strong>Correct answer:</strong> ' + correctAnswerText + '. ') + (q.explanation || '');
     }
   });
+
   const pill = document.getElementById('listening-score');
   if(pill){
     pill.textContent = correctCount + ' / ' + questions.length + ' correct';
     pill.classList.add('show');
   }
 }
+
 /* -------- Audio player logic -------- */
 function setupAudioPlayer(task){
   const container = document.getElementById('listening-task-container');
@@ -354,13 +2175,16 @@ function setupAudioPlayer(task){
   const timeTotal = document.getElementById('time-total');
   const progressFill = document.getElementById('progress-fill');
   const progressBar = document.getElementById('progress-bar');
+
   let audio = new Audio(task.audioUrl);
   listeningState.audio = audio;
   listeningState.audioSrc = task.audioSrc;
+
   audio.addEventListener('loadedmetadata', ()=>{
     listeningState.duration = audio.duration;
     timeTotal.textContent = formatTime(audio.duration);
   });
+
   audio.addEventListener('timeupdate', ()=>{
     if(audio.duration){
       const pct = (audio.currentTime / audio.duration) * 100;
@@ -368,6 +2192,7 @@ function setupAudioPlayer(task){
       timeCurrent.textContent = formatTime(audio.currentTime);
     }
   });
+
   audio.addEventListener('ended', ()=>{
     listeningState.isPlaying = false;
     playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>';
@@ -375,6 +2200,7 @@ function setupAudioPlayer(task){
     timeCurrent.textContent = '0:00';
     audio.currentTime = 0;
   });
+
   playBtn.onclick = ()=>{
     if(listeningState.isPlaying){
       audio.pause();
@@ -396,6 +2222,7 @@ function setupAudioPlayer(task){
       playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
     }
   };
+
   progressBar.onclick = (e)=>{
     if(audio.duration){
       const rect = progressBar.getBoundingClientRect();
@@ -403,6 +2230,7 @@ function setupAudioPlayer(task){
       audio.currentTime = pct * audio.duration;
     }
   };
+
   const observer = new MutationObserver(()=>{
     if(!container || !container.parentElement){
       audio.pause();
@@ -413,12 +2241,14 @@ function setupAudioPlayer(task){
   });
   observer.observe(container, {childList:true, subtree:true});
 }
+
 function formatTime(seconds){
   if(!seconds || isNaN(seconds)) return '0:00';
   const m = Math.floor(seconds / 60);
   const s = Math.floor(seconds % 60);
   return m + ':' + (s < 10 ? '0' : '') + s;
 }
+
 /* ==================================================
    INIT
    ================================================== */
